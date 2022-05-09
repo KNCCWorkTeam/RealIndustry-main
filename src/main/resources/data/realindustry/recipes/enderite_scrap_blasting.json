@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:blasting",
+    "ingredient": [
+        {
+            "item": "realindustry:ender_dragon_debris"
+        }
+    ],
+    "result": "realindustry:enderite_scrap",
+    "experience": 0.2,
+    "cookingtime": 1000
+}

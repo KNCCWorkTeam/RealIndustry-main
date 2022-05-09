@@ -1,0 +1,22 @@
+{
+  "item.realindustry.enderite_ingot": "末地合金锭",
+  "item.realindustry.enderite_scrap": "末地合金碎片",
+  "item.realindustry.enderite_sword": "末地合金剑",
+  "item.realindustry.enderite_hoe": "末地合金锄",
+  "item.realindustry.enderite_axe": "末地合金斧",
+  "item.realindustry.enderite_pickaxe": "末地合金镐",
+  "item.realindustry.enderite_shovel": "末地合金锹",
+  "item.realindustry.enderite_helmet": "末地合金头盔",
+  "item.realindustry.enderite_chestplate": "末地合金胸甲",
+  "item.realindustry.enderite_leggings": "末地合金护腿",
+  "item.realindustry.enderite_boots": "末地合金靴子",
+  "item.realindustry.national_anthem_of_ussr": "牢不可破的联盟",
+  "item.realindustry.national_anthem_of_ussr.desc": "牢不可破的联盟",
+  "item.realindustry.piston_ring": "活塞环",
+  "block.realindustry.enderite_block": "末地合金块",
+  "block.realindustry.ender_dragon_debris": "末影龙残骸",
+  "block.realindustry.internal_combustion_engine": "内燃机",
+  "itemGroup.material_tab": "材料",
+  "itemGroup.industry_material_tab": "工业材料",
+  "itemGroup.tool_tab": "工具"
+}

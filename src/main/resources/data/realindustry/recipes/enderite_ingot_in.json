@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_ingot",
+      "data": 0
+    },
+    {
+      "item": "minecraft:netherite_ingot",
+      "data": 0
+    },
+    {
+      "item": "minecraft:netherite_ingot",
+      "data": 0
+    },
+    {
+      "item": "minecraft:netherite_ingot",
+      "data": 0
+    },
+    {
+      "item": "realindustry:enderite_scrap",
+      "data": 0
+    },
+    {
+      "item": "realindustry:enderite_scrap",
+      "data": 0
+    },
+    {
+      "item": "realindustry:enderite_scrap",
+      "data": 0
+    },
+    {
+      "item": "realindustry:enderite_scrap",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "realindustry:enderite_ingot",
+    "count": 1
+  }
+}

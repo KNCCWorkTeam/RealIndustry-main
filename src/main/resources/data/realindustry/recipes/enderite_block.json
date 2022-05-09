@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"EEE",
+		"EEE",
+        "EEE"
+	],
+	"key": {
+		"E": {
+			"item": "realindustry:enderite_ingot"
+		}
+	},
+	"result": {
+		"item": "realindustry:enderite_block",
+		"count": 1
+	}
+}

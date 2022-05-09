@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "realindustry:item/national_anthem_of_ussr"
+  }
+}

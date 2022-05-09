@@ -1,0 +1,22 @@
+{
+  "item.realindustry.enderite_ingot": "Enderite Ingot",
+  "item.realindustry.enderite_scrap": "Enderite Scrap",
+  "item.realindustry.enderite_sword": "Enderite Sword",
+  "item.realindustry.enderite_hoe": "Enderite Hoe",
+  "item.realindustry.enderite_axe": "Enderite Axe",
+  "item.realindustry.enderite_pickaxe": "Enderite Pickaxe",
+  "item.realindustry.enderite_shovel": "Enderite Shovel",
+  "item.realindustry.enderite_helmet": "Enderite Helmet",
+  "item.realindustry.enderite_chestplate": "Enderite Chestplate",
+  "item.realindustry.enderite_leggings": "Enderite Legging",
+  "item.realindustry.enderite_boots": "Enderite Boots",
+  "item.realindustry.national_anthem_of_ussr": "National Anthem Of USSR",
+  "item.realindustry.national_anthem_of_ussr.desc": "National Anthem Of USSR",
+  "item.realindustry.piston_ring": "Piston Ring",
+  "block.realindustry.enderite_block": "Enderite Block",
+  "block.realindustry.ender_dragon_debris": "Ender Dragon Debris",
+  "block.realindustry.internal_combustion_engine": "Internal Combustion Engine",
+  "itemGroup.material_tab": "Material",
+  "itemGroup.industry_material_tab": "Industry Material",
+  "itemGroup.tool_tab": "Tool"
+}

@@ -1,0 +1,18 @@
+{
+  "11": {
+    "sounds": [
+      {
+        "name": "realindustry:11",
+        "stream": false
+      }
+    ]
+  },
+  "13": {
+    "sounds": [
+      {
+        "name": "realindustry:13",
+        "stream": false
+      }
+    ]
+  }
+}

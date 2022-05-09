@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "realindustry:block/ender_dragon_debris_top",
+    "front": "realindustry:block/ender_dragon_debris_side",
+    "side": "realindustry:block/ender_dragon_debris_side"
+  }
+}

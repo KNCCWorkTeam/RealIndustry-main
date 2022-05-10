@@ -1,18 +1,11 @@
 package com.beswk.realindustry.Blocks;
 
-import com.beswk.realindustry.BlockEntities.InternalCombustionEngineEntity;
-import com.beswk.realindustry.Menu.GeneratorMenu;
+import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
+import com.beswk.realindustry.BlockEntities.InternalCombustionEngineBlockEntity;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
-import com.beswk.realindustry.util.BlockEntities;
-import com.beswk.realindustry.util.Class.DataComponent;
 import com.beswk.realindustry.util.Class.GeneratorComponent;
-import com.beswk.realindustry.util.Class.ObjectComponent;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -21,16 +14,12 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -41,9 +30,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class InternalCombustionEngine extends MinecraftBlock implements EntityBlock {
-    public InternalCombustionEngine() {
+public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlock {
+    String displayName;
+    public GeneratorBlock(String displayName) {
         super(Material.METAL, MaterialColor.COLOR_LIGHT_GRAY, 3.5f,3.5f, SoundType.METAL);
+        this.displayName = displayName;
     }
 
     @Override
@@ -66,26 +57,14 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
             player.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return new GeneratorComponent("internal_combustion_engine",world.getBlockEntity(pos));
+                    return new GeneratorComponent(displayName,world.getBlockEntity(pos));
                 }
 
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
-                    /*
-                    SimpleContainerData data = new SimpleContainerData(1);
-                    System.out.println(data);
-                    System.out.println(world.getBlockEntity(pos));
-                    if (world.getBlockEntity(pos) instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
-                        data.set(0, internalCombustionEngineEntity.getBurnTimeOdd());
-                        System.out.println(data.get(0));
-                    }
-                    System.out.println(data);
-
-                     */
-
-                    if (world.getBlockEntity(pos) instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
-                        return internalCombustionEngineEntity.createMenu(p_39954_,p_39955_);
+                    if (world.getBlockEntity(pos) instanceof GeneratorBlockEntity generatorBlockEntity) {
+                        return generatorBlockEntity.createMenu(p_39954_,p_39955_);
                     }
                     return null;
                 }
@@ -102,7 +81,7 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new InternalCombustionEngineEntity(pos, state);
+        return new InternalCombustionEngineBlockEntity(pos, state);
     }
 
     @Override
@@ -116,7 +95,7 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof InternalCombustionEngineEntity be) {
+            if (blockEntity instanceof GeneratorBlockEntity be) {
                 Containers.dropContents(world, pos, be);
                 world.updateNeighbourForOutputSignal(pos, this);
             }
@@ -132,15 +111,9 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos pos) {
         BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof InternalCombustionEngineEntity be)
+        if (tileentity instanceof GeneratorBlockEntity be)
             return AbstractContainerMenu.getRedstoneSignalFromContainer(be);
         else
             return 0;
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY ? InternalCombustionEngineEntity::tick : null;
     }
 }

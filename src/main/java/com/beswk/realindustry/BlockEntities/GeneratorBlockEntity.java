@@ -1,11 +1,11 @@
 package com.beswk.realindustry.BlockEntities;
 
 import com.beswk.realindustry.Menu.GeneratorMenu;
-import com.beswk.realindustry.util.BlockEntities;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -37,15 +37,25 @@ import java.util.stream.IntStream;
 
 import io.netty.buffer.Unpooled;
 
-public class InternalCombustionEngineEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
-    private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
+public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
+    NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
     private int burnTimeOdd = 0;
     public ContainerData data = new SimpleContainerData(1);
+    public String displayName;
+    int capacity;
+    int maxReceive;
+    int maxExtract;
+    int energy;
 
-    public InternalCombustionEngineEntity(BlockPos position, BlockState state) {
-        super(BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
+    public GeneratorBlockEntity(String displayName,int capacity,int maxReceive,int maxExtract,int energy,BlockEntityType<?> entity, BlockPos position, BlockState state) {
+        super(entity, position, state);
+        this.displayName = displayName;
+        this.capacity = capacity;
+        this.maxReceive = maxReceive;
+        this.maxExtract = maxExtract;
+        this.energy = energy;
     }
 
     @Override
@@ -92,7 +102,7 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
 
     @Override
     public Component getDefaultName() {
-        return new TextComponent("generator");
+        return new TextComponent(displayName);
     }
 
     @Override
@@ -107,7 +117,7 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
 
     @Override
     public Component getDisplayName() {
-        return new TextComponent("internal_combustion_engine");
+        return new TextComponent(displayName);
     }
 
     @Override
@@ -140,7 +150,7 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
         return index != 0;
     }
 
-    private EnergyStorage energyStorage = new EnergyStorage(400000, 200, 200, 0) {
+    EnergyStorage energyStorage = new EnergyStorage(400000, 200, 200, 0) {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
             int retval = super.receiveEnergy(maxReceive, simulate);
@@ -190,27 +200,5 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
 
     public int getBurnTimeOdd() {
         return burnTimeOdd;
-    }
-
-    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
-        BlockEntity entity = level.getBlockEntity(blockPos);
-        if (entity instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
-            EnergyStorage before = internalCombustionEngineEntity.energyStorage;
-            if (internalCombustionEngineEntity.getBurnTimeOdd()==0) {
-                if (before.getEnergyStored() + 100 <= 400000) {
-                    if (!internalCombustionEngineEntity.stacks.get(0).isEmpty()) {
-                        internalCombustionEngineEntity.addBurnTimeOdd(100);
-                        internalCombustionEngineEntity.stacks.get(0).shrink(1);
-                    }
-                }
-            } else {
-                internalCombustionEngineEntity.reduceBurnTimeOdd(1);
-                if (before.getEnergyStored() + 100 <= 400000) {
-                    internalCombustionEngineEntity.energyStorage = new EnergyStorage(400000, 200, 200, before.getEnergyStored() + 10);
-                } else {
-                    internalCombustionEngineEntity.energyStorage = new EnergyStorage(400000, 200, 200, 400000);
-                }
-            }
-        }
     }
 }

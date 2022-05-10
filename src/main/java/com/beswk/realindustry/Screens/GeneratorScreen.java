@@ -1,11 +1,9 @@
 
 package com.beswk.realindustry.Screens;
 
-import com.beswk.realindustry.BlockEntities.InternalCombustionEngineEntity;
+import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
 import com.beswk.realindustry.Menu.GeneratorMenu;
-import com.beswk.realindustry.util.Class.DataComponent;
 import com.beswk.realindustry.util.Class.GeneratorComponent;
-import com.beswk.realindustry.util.Class.ObjectComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -19,7 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.HashMap;
 
-public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
+public abstract class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 	private final static HashMap<String, Object> guistate = GeneratorMenu.guistate;
 	private final Level world;
 	private final int x, y, z;
@@ -62,10 +60,8 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 
 		BlockEntity entity = generatorComponent.getEntity();
 
-		System.out.println(entity);
-
-		if (entity instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
-			int process = internalCombustionEngineEntity.data.get(0);
+		if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
+			int process = generatorBlockEntity.data.get(0);
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry", "textures/gui/container/furnace.png"));
 			System.out.println(this.topPos + 26 - (int) (process * 0.26));
 			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.26), 13, 13);

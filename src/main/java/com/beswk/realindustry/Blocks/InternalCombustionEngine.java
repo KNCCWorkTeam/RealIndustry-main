@@ -4,13 +4,16 @@ import com.beswk.realindustry.BlockEntities.InternalCombustionEngineEntity;
 import com.beswk.realindustry.Menu.GeneratorMenu;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
 import com.beswk.realindustry.util.BlockEntities;
+import com.beswk.realindustry.util.Class.DataComponent;
+import com.beswk.realindustry.util.Class.GeneratorComponent;
+import com.beswk.realindustry.util.Class.ObjectComponent;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.*;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,6 +21,8 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -35,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class InternalCombustionEngine extends MinecraftBlock implements EntityBlock {
     public InternalCombustionEngine() {
@@ -62,13 +66,28 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
             player.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return new TextComponent("internal_combustion_engine");
+                    return new GeneratorComponent("internal_combustion_engine",world.getBlockEntity(pos));
                 }
 
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
-                    return new GeneratorMenu(p_39954_, p_39955_, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(pos));
+                    /*
+                    SimpleContainerData data = new SimpleContainerData(1);
+                    System.out.println(data);
+                    System.out.println(world.getBlockEntity(pos));
+                    if (world.getBlockEntity(pos) instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
+                        data.set(0, internalCombustionEngineEntity.getBurnTimeOdd());
+                        System.out.println(data.get(0));
+                    }
+                    System.out.println(data);
+
+                     */
+
+                    if (world.getBlockEntity(pos) instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
+                        return internalCombustionEngineEntity.createMenu(p_39954_,p_39955_);
+                    }
+                    return null;
                 }
             });
         }

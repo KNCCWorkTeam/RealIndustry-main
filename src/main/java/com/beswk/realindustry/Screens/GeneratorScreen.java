@@ -1,7 +1,11 @@
 
 package com.beswk.realindustry.Screens;
 
+import com.beswk.realindustry.BlockEntities.InternalCombustionEngineEntity;
 import com.beswk.realindustry.Menu.GeneratorMenu;
+import com.beswk.realindustry.util.Class.DataComponent;
+import com.beswk.realindustry.util.Class.GeneratorComponent;
+import com.beswk.realindustry.util.Class.ObjectComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -11,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.HashMap;
 
@@ -19,9 +24,13 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 	private final Level world;
 	private final int x, y, z;
 	private final Player entity;
+	private GeneratorComponent generatorComponent;
 
 	public GeneratorScreen(GeneratorMenu container, Inventory inventory, Component text) {
 		super(container, inventory, text);
+		if (text instanceof GeneratorComponent generatorComponent) {
+			this.generatorComponent = generatorComponent;
+		}
 		this.world = container.world;
 		this.x = container.x;
 		this.y = container.y;
@@ -48,8 +57,19 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 		RenderSystem.setShaderTexture(0, texture);
 		blit(ms, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
-		RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/furnace.png"));
+		RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/furnace_burn.png"));
 		blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13, 13, 13);
+
+		BlockEntity entity = generatorComponent.getEntity();
+
+		System.out.println(entity);
+
+		if (entity instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
+			int process = internalCombustionEngineEntity.data.get(0);
+			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry", "textures/gui/container/furnace.png"));
+			System.out.println(this.topPos + 26 - (int) (process * 0.26));
+			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.26), 13, 13);
+		}
 
 		RenderSystem.disableBlend();
 	}

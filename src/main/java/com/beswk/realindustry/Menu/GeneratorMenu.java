@@ -1,6 +1,7 @@
 
 package com.beswk.realindustry.Menu;
 
+import com.beswk.realindustry.BlockEntities.InternalCombustionEngineEntity;
 import com.beswk.realindustry.util.Menus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,6 +10,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -30,6 +33,8 @@ public class GeneratorMenu extends AbstractContainerMenu implements Supplier<Map
 	private IItemHandler internal;
 	private final Map<Integer, Slot> customSlots = new HashMap<>();
 	private boolean bound = false;
+	public BlockEntity blockEntity;
+	public ContainerData data;
 
 	public GeneratorMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
 		super(Menus.INTERNAL_COMBUSTION_MACHINE_MENU, id);
@@ -77,9 +82,15 @@ public class GeneratorMenu extends AbstractContainerMenu implements Supplier<Map
 		}));
 		for (int si = 0; si < 3; ++si)
 			for (int sj = 0; sj < 9; ++sj)
-				this.addSlot(new Slot(inv, sj + (si + 1) * 9, 0 + 8 + sj * 18, 0 + 84 + si * 18));
+				this.addSlot(new Slot(inv, sj + (si + 1) * 9, 8 + sj * 18, 84 + si * 18));
 		for (int si = 0; si < 9; ++si)
-			this.addSlot(new Slot(inv, si, 0 + 8 + si * 18, 0 + 142));
+			this.addSlot(new Slot(inv, si, 8 + si * 18, 142));
+	}
+
+	public GeneratorMenu(int id, Inventory inv, FriendlyByteBuf extraData,ContainerData data) {
+		this(id, inv, extraData);
+		System.out.println(data);
+		this.data = data;
 	}
 
 	@Override
@@ -123,6 +134,8 @@ public class GeneratorMenu extends AbstractContainerMenu implements Supplier<Map
 		}
 		return itemstack;
 	}
+
+
 
 	@Override
 	protected boolean moveItemStackTo(ItemStack p_38904_, int p_38905_, int p_38906_, boolean p_38907_) {

@@ -2,6 +2,8 @@ package com.beswk.realindustry.BlockEntities;
 
 import com.beswk.realindustry.Menu.GeneratorMenu;
 import com.beswk.realindustry.util.BlockEntities;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -36,6 +38,8 @@ import io.netty.buffer.Unpooled;
 public class InternalCombustionEngineEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
+
+    private int burnTimeOdd = 0;
 
     public InternalCombustionEngineEntity(BlockPos position, BlockState state) {
         super(BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
@@ -100,7 +104,7 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
 
     @Override
     public Component getDisplayName() {
-        return new TextComponent("generator");
+        return new TextComponent("internal_combustion_engine");
     }
 
     @Override
@@ -135,7 +139,7 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
         return true;
     }
 
-    private final EnergyStorage energyStorage = new EnergyStorage(400000, 200, 200, 0) {
+    private EnergyStorage energyStorage = new EnergyStorage(400000, 200, 200, 0) {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
             int retval = super.receiveEnergy(maxReceive, simulate);
@@ -171,5 +175,46 @@ public class InternalCombustionEngineEntity extends RandomizableContainerBlockEn
         super.setRemoved();
         for (LazyOptional<? extends IItemHandler> handler : handlers)
             handler.invalidate();
+    }
+
+    public void addBurnTimeOdd(int time) {
+        this.burnTimeOdd += time;
+    }
+
+    public void reduceBurnTimeOdd(int time) {
+        this.burnTimeOdd -= time;
+    }
+
+    public boolean ifBurnTimeOddEmpty() {
+        return burnTimeOdd == 0;
+    }
+
+    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
+        BlockEntity entity = level.getBlockEntity(blockPos);
+        if (entity instanceof InternalCombustionEngineEntity internalCombustionEngineEntity) {
+            if (internalCombustionEngineEntity.ifBurnTimeOddEmpty()) {
+                if (!internalCombustionEngineEntity.stacks.get(0).isEmpty()) {
+                    /*
+                    EnergyStorage before = internalCombustionEngineEntity.energyStorage;
+                    if (before.getEnergyStored() + 100 <= 400000) {
+                        internalCombustionEngineEntity.energyStorage = new EnergyStorage(400000, 200, 200, before.getEnergyStored() + 100);
+                    } else {
+                        internalCombustionEngineEntity.energyStorage = new EnergyStorage(400000, 200, 200, 400000);
+                    }
+                     */
+                    internalCombustionEngineEntity.addBurnTimeOdd(100);
+                    internalCombustionEngineEntity.stacks.get(0).shrink(1);
+                }
+            } else {
+                internalCombustionEngineEntity.reduceBurnTimeOdd(1);
+                EnergyStorage before = internalCombustionEngineEntity.energyStorage;
+                if (before.getEnergyStored() + 100 <= 400000) {
+                    internalCombustionEngineEntity.energyStorage = new EnergyStorage(400000, 200, 200, before.getEnergyStored() + 10);
+                } else {
+                    internalCombustionEngineEntity.energyStorage = new EnergyStorage(400000, 200, 200, 400000);
+                }
+            }
+            System.out.println(internalCombustionEngineEntity.energyStorage.getEnergyStored());
+        }
     }
 }

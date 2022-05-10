@@ -3,10 +3,12 @@ package com.beswk.realindustry.Blocks;
 import com.beswk.realindustry.BlockEntities.InternalCombustionEngineEntity;
 import com.beswk.realindustry.Menu.GeneratorMenu;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
+import com.beswk.realindustry.util.BlockEntities;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.*;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.Containers;
@@ -22,6 +24,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -31,13 +35,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class InternalCombustionEngine extends MinecraftBlock implements EntityBlock {
     public InternalCombustionEngine() {
         super(Material.METAL, MaterialColor.COLOR_LIGHT_GRAY, 3.5f,3.5f, SoundType.METAL);
     }
-
-
 
     @Override
     public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
@@ -59,7 +62,7 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
             player.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return new TextComponent("generator");
+                    return new TextComponent("internal_combustion_engine");
                 }
 
                 @Nullable
@@ -114,5 +117,11 @@ public class InternalCombustionEngine extends MinecraftBlock implements EntityBl
             return AbstractContainerMenu.getRedstoneSignalFromContainer(be);
         else
             return 0;
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return blockEntityType == BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY ? InternalCombustionEngineEntity::tick : null;
     }
 }

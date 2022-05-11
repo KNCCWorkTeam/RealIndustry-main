@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class InternalCombustionEngineBlockEntity extends GeneratorBlockEntity{
     public InternalCombustionEngineBlockEntity(BlockPos position, BlockState state) {
-        super("internal_combustion_engine",40000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
+        super(false,"internal_combustion_engine",40000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
     }
 
     @Override

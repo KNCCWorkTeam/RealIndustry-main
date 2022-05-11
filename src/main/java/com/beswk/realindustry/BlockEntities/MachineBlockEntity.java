@@ -12,7 +12,6 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -26,7 +25,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.stream.IntStream;
 
 public abstract class MachineBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
@@ -75,17 +73,17 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         BlockEntity entity = level.getBlockEntity(blockPos);
-        if (entity instanceof GrinderBlockEntities grinderBlockEntities) {
-            if (grinderBlockEntities.completeMap(grinderBlockEntities.getInputItem())!=null) {
-                if (grinderBlockEntities.energyStorage.getEnergyStored() >= 5) {
-                    grinderBlockEntities.energyStorage = new EnergyStorage(grinderBlockEntities.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntities.energyStorage.getEnergyStored() - 5);
-                    grinderBlockEntities.addProcess(10);
+        if (entity instanceof GrinderBlockEntity grinderBlockEntity) {
+            if (grinderBlockEntity.completeMap(grinderBlockEntity.getInputItem())!=null) {
+                if (grinderBlockEntity.energyStorage.getEnergyStored() >= 5) {
+                    grinderBlockEntity.energyStorage = new EnergyStorage(grinderBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntity.energyStorage.getEnergyStored() - 5);
+                    grinderBlockEntity.addProcess(10);
                 }
             }
         }
         BlockEntity nearGenerator = null;
         for (int i = 0; i < 6; i++) {
-            if (nearGenerator instanceof GeneratorBlockEntity) {
+            if (nearGenerator instanceof GeneratorBlockEntity||nearGenerator instanceof CableBlockEntity) {
                 break;
             }
             switch (i) {
@@ -97,9 +95,12 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
                 case 5 -> nearGenerator = level.getBlockEntity(blockPos.north());
             }
         }
-        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity&&generatorBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof GrinderBlockEntities grinderBlockEntities) {
-            grinderBlockEntities.energyStorage = new EnergyStorage(grinderBlockEntities.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntities.energyStorage.getEnergyStored() + 5);
+        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity&&generatorBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof GrinderBlockEntity grinderBlockEntity) {
+            grinderBlockEntity.energyStorage = new EnergyStorage(grinderBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntity.energyStorage.getEnergyStored() + 5);
             generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, generatorBlockEntity.energyStorage.getEnergyStored() - 5);
+        } else if (nearGenerator instanceof CableBlockEntity cableBlockEntity&&cableBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof GrinderBlockEntity grinderBlockEntity) {
+            grinderBlockEntity.energyStorage = new EnergyStorage(grinderBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntity.energyStorage.getEnergyStored() + 5);
+            cableBlockEntity.energyStorage = new EnergyStorage(cableBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, cableBlockEntity.energyStorage.getEnergyStored() - 5);
         }
     }
 

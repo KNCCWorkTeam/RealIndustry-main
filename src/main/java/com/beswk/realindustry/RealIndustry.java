@@ -1,6 +1,7 @@
 package com.beswk.realindustry;
 
 import com.beswk.realindustry.CreativeTabs.IndustryMaterial;
+import com.beswk.realindustry.CreativeTabs.Machine;
 import com.beswk.realindustry.CreativeTabs.Material;
 import com.beswk.realindustry.CreativeTabs.Tool;
 import com.beswk.realindustry.Screens.GeneratorScreen;
@@ -38,6 +39,7 @@ public class RealIndustry {
 
     public static final String MOD_ID = "realindustry";
 
+    public static final CreativeModeTab MACHINE = new Machine();
     public static final CreativeModeTab MATERIAL = new Material();
     public static final CreativeModeTab TOOL = new Tool();
     public static final CreativeModeTab INDUSTRY_MATERIAL = new IndustryMaterial();

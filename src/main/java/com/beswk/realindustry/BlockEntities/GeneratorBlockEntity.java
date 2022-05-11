@@ -30,6 +30,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
+import static net.minecraft.world.item.Items.REDSTONE;
 import static org.openjdk.nashorn.internal.objects.Global.undefined;
 
 public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {

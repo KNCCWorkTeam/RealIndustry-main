@@ -34,7 +34,7 @@ public class Initialize {
         RegistryObject<Item> ENDERITE_BOOTS = Items.ENDERITE_BOOTS;
 
         BlockEntityType<?> INTERNAL_COMBUSTION_ENGINE_ENTITY = BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY;
-        BlockEntityType<?> GRINDER_ENTITY = BlockEntities.GRINDER;
+        BlockEntityType<?> GRINDER_ENTITY = BlockEntities.GRINDER_ENTITY;
 
         Items.ITEMS.register(RealIndustry.bus);
     }

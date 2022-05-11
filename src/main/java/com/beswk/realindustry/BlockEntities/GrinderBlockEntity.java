@@ -10,16 +10,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.energy.EnergyStorage;
 
 import java.util.HashMap;
 
-public class GrinderBlockEntities extends MachineBlockEntity{
-    public GrinderBlockEntities(BlockPos position, BlockState state) {
-        super("grinder", 1000, 200, 200, 0, BlockEntities.GRINDER, position, state);
+public class GrinderBlockEntity extends MachineBlockEntity{
+    public GrinderBlockEntity(BlockPos position, BlockState state) {
+        super("grinder", 1000, 200, 200, 0, BlockEntities.GRINDER_ENTITY, position, state);
     }
 
     @Override

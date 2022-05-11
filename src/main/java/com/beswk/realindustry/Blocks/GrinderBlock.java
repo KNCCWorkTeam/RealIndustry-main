@@ -1,6 +1,6 @@
 package com.beswk.realindustry.Blocks;
 
-import com.beswk.realindustry.BlockEntities.GrinderBlockEntities;
+import com.beswk.realindustry.BlockEntities.GrinderBlockEntity;
 import com.beswk.realindustry.util.BlockEntities;
 import com.beswk.realindustry.util.Class.MachineComponent;
 import net.minecraft.core.BlockPos;
@@ -28,12 +28,12 @@ public class GrinderBlock extends MachineBlock{
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == BlockEntities.GRINDER ? GrinderBlockEntities::tick : null;
+        return blockEntityType == BlockEntities.GRINDER_ENTITY ? GrinderBlockEntity::tick : null;
     }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new GrinderBlockEntities(pos, state);
+        return new GrinderBlockEntity(pos, state);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class GrinderBlock extends MachineBlock{
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
-                    if (world.getBlockEntity(pos) instanceof GrinderBlockEntities grinderBlockEntities) {
-                        return grinderBlockEntities.createMenu(p_39954_,p_39955_);
+                    if (world.getBlockEntity(pos) instanceof GrinderBlockEntity grinderBlockEntity) {
+                        return grinderBlockEntity.createMenu(p_39954_,p_39955_);
                     }
                     return null;
                 }

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "realindustry:enderite_block",
-    "realindustry:ender_dragon_debris"
+    "realindustry:ender_dragon_debris",
+    "realindustry:internal_combustion_engine",
+    "realindustry:grinder"
   ]
 }

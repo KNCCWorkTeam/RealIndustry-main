@@ -1,6 +1,8 @@
 package com.beswk.realindustry.BlockEntities;
 
+import com.beswk.realindustry.util.Class.EnergyType;
 import com.beswk.realindustry.util.Class.ObjectData;
+import com.beswk.realindustry.util.Class.TypeEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -39,16 +41,16 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
     int maxReceive;
     int maxExtract;
     int energy;
-    public EnergyStorage energyStorage;
+    public TypeEnergyStorage energyStorage;
 
-    public MachineBlockEntity(String displayName, int capacity, int maxReceive, int maxExtract, int energy, BlockEntityType<?> entity, BlockPos position, BlockState state) {
+    public MachineBlockEntity(EnergyType type,String displayName, int capacity, int maxReceive, int maxExtract, int energy, BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
         this.displayName = displayName;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.energy = energy;
-        this.energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
+        this.energyStorage = new TypeEnergyStorage(type,capacity, maxReceive, maxExtract, energy) {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
                 int retval = super.receiveEnergy(maxReceive, simulate);
@@ -73,11 +75,10 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         BlockEntity entity = level.getBlockEntity(blockPos);
-        if (entity instanceof GrinderBlockEntity grinderBlockEntity) {
-            if (grinderBlockEntity.completeMap(grinderBlockEntity.getInputItem())!=null) {
-                if (grinderBlockEntity.energyStorage.getEnergyStored() >= 5) {
-                    grinderBlockEntity.energyStorage = new EnergyStorage(grinderBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntity.energyStorage.getEnergyStored() - 5);
-                    grinderBlockEntity.addProcess(10);
+        if (entity instanceof MachineBlockEntity machineBlockEntity) {
+            if (machineBlockEntity.completeMap(machineBlockEntity.getInputItem())!=null) {
+                if (machineBlockEntity.energyStorage.getEnergyStored() >= 5) {
+                    machineBlockEntity.energyStorage.addEnergy(machineBlockEntity,-5,10);
                 }
             }
         }
@@ -95,12 +96,12 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
                 case 5 -> nearGenerator = level.getBlockEntity(blockPos.north());
             }
         }
-        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity&&generatorBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof GrinderBlockEntity grinderBlockEntity) {
-            grinderBlockEntity.energyStorage = new EnergyStorage(grinderBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntity.energyStorage.getEnergyStored() + 5);
-            generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, generatorBlockEntity.energyStorage.getEnergyStored() - 5);
-        } else if (nearGenerator instanceof CableBlockEntity cableBlockEntity&&cableBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof GrinderBlockEntity grinderBlockEntity) {
-            grinderBlockEntity.energyStorage = new EnergyStorage(grinderBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntity.energyStorage.getEnergyStored() + 5);
-            cableBlockEntity.energyStorage = new EnergyStorage(cableBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, cableBlockEntity.energyStorage.getEnergyStored() - 5);
+        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity&&generatorBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof MachineBlockEntity machineBlockEntity&&generatorBlockEntity.energyStorage.ifSameEnergyType(machineBlockEntity.energyStorage)) {
+            machineBlockEntity.energyStorage.addEnergy(generatorBlockEntity.energyStorage,5);
+            System.out.println("Machine:"+machineBlockEntity.energyStorage);
+        } else if (nearGenerator instanceof CableBlockEntity cableBlockEntity&&cableBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof MachineBlockEntity machineBlockEntity) {
+            machineBlockEntity.energyStorage.addEnergy(cableBlockEntity.energyStorage,5);
+            System.out.println("Machine:"+machineBlockEntity.energyStorage);
         }
     }
 

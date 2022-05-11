@@ -2,6 +2,7 @@ package com.beswk.realindustry.BlockEntities;
 
 import com.beswk.realindustry.Menu.InternalCombustionEngineMenu;
 import com.beswk.realindustry.util.BlockEntities;
+import com.beswk.realindustry.util.Class.EnergyType;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 
 public class InternalCombustionEngineBlockEntity extends GeneratorBlockEntity{
     public InternalCombustionEngineBlockEntity(BlockPos position, BlockState state) {
-        super(false,"internal_combustion_engine",40000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
+        super(EnergyType.KE,false,"internal_combustion_engine",40000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
     }
 
     @Override

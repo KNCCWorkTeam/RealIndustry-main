@@ -1,5 +1,7 @@
 package com.beswk.realindustry.BlockEntities;
 
+import com.beswk.realindustry.util.Class.EnergyType;
+import com.beswk.realindustry.util.Class.TypeEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -42,14 +44,14 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     public ContainerData data = new SimpleContainerData(1);
     public String displayName;
     int efficient;
-    public EnergyStorage energyStorage;
+    public TypeEnergyStorage energyStorage;
     int capacity;
     int maxReceive;
     int maxExtract;
     int energy;
     int generateAmountPerTick;
 
-    public GeneratorBlockEntity(boolean canConnectToCable,String displayName,int capacity,int maxReceive,int maxExtract,int energy,int generateAmountPerTick,BlockEntityType<?> entity, BlockPos position, BlockState state) {
+    public GeneratorBlockEntity(EnergyType type, boolean canConnectToCable, String displayName, int capacity, int maxReceive, int maxExtract, int energy, int generateAmountPerTick, BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
         this.canConnectToCable = canConnectToCable;
         this.displayName = displayName;
@@ -58,7 +60,7 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.energy = energy;
-        energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
+        energyStorage = new TypeEnergyStorage(type,capacity, maxReceive, maxExtract, energy) {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
                 int retval = super.receiveEnergy(maxReceive, simulate);
@@ -95,12 +97,13 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
                 if (generatorBlockEntity.efficient!=-1) {
                     generatorBlockEntity.reduceBurnTimeOdd(1000 / generatorBlockEntity.efficient);
                     if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
-                        generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick);
+                        generatorBlockEntity.energyStorage.addEnergy(generatorBlockEntity, generatorBlockEntity.generateAmountPerTick);
                     } else {
-                        generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, generatorBlockEntity.capacity);
+                        generatorBlockEntity.energyStorage.setEnergy(generatorBlockEntity.energyStorage.getMaxEnergyStored());
                     }
                 }
             }
+            System.out.println("generator:"+generatorBlockEntity.energyStorage);
         }
     }
 

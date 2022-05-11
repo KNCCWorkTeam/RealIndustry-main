@@ -2,6 +2,7 @@ package com.beswk.realindustry.BlockEntities;
 
 import com.beswk.realindustry.Menu.GrinderMenu;
 import com.beswk.realindustry.util.BlockEntities;
+import com.beswk.realindustry.util.Class.EnergyType;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 public class GrinderBlockEntity extends MachineBlockEntity{
     public GrinderBlockEntity(BlockPos position, BlockState state) {
-        super("grinder", 1000, 200, 200, 0, BlockEntities.GRINDER_ENTITY, position, state);
+        super(EnergyType.FE,"grinder", 1000, 200, 200, 0, BlockEntities.GRINDER_ENTITY, position, state);
     }
 
     @Override

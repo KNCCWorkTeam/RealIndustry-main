@@ -49,13 +49,15 @@ public class GrinderBlockEntities extends MachineBlockEntity{
                     break;
             }
         }
-        if (nearGenerator!=null&&((GeneratorBlockEntity)nearGenerator).energyStorage.getEnergyStored()>=5) {
-            BlockEntity entity = level.getBlockEntity(blockPos);
-            if (entity instanceof GrinderBlockEntities grinderBlockEntities) {
-                if (grinderBlockEntities.completeMap(grinderBlockEntities.getInputItem())!=null) {
-                    EnergyStorage before = ((GeneratorBlockEntity) nearGenerator).energyStorage;
-                    before = new EnergyStorage(before.getMaxEnergyStored(), 200, 200, before.getEnergyStored() - 5);
-                    grinderBlockEntities.addProcess(10);
+        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity) {
+            if (generatorBlockEntity.energyStorage.getEnergyStored()>=5) {
+                BlockEntity entity = level.getBlockEntity(blockPos);
+                if (entity instanceof GrinderBlockEntities grinderBlockEntities) {
+                    if (grinderBlockEntities.completeMap(grinderBlockEntities.getInputItem()) != null) {
+                        EnergyStorage before = ((GeneratorBlockEntity) nearGenerator).energyStorage;
+                        before = new EnergyStorage(before.getMaxEnergyStored(), 200, 200, before.getEnergyStored() - 5);
+                        grinderBlockEntities.addProcess(10);
+                    }
                 }
             }
         }

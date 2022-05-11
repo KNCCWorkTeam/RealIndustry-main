@@ -29,6 +29,6 @@ public class InternalCombustionEngineBlockEntity extends GeneratorBlockEntity{
         itemIntegerHashMap.put(Items.COAL,100);
         itemIntegerHashMap.put(Items.COAL_BLOCK,1000);
         itemIntegerHashMap.put(Items.CHARCOAL,1000);
-        return itemIntegerHashMap.get(item)==null?0:itemIntegerHashMap.get(item);
+        return itemIntegerHashMap.get(item)==null?-1:itemIntegerHashMap.get(item);
     }
 }

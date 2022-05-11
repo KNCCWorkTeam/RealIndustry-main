@@ -65,11 +65,18 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry:textures/gui/container/arrow.png"));
         this.blit(ms, this.leftPos + 85, this.topPos + 36, 0, 0, 22, 15, 22, 15);
 
+        RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/electricity.png"));
+        this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, 80, 16, 80);
+
         BlockEntity entity = machineComponent.getEntity();
         if (entity instanceof MachineBlockEntity machineBlockEntity) {
-            int process = machineBlockEntity.data.get(0);
+            float process = machineBlockEntity.data.get(0);
             RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry:textures/gui/container/arrow_complete.png"));
             this.blit(ms, this.leftPos + 85, this.topPos + 36, 0, 0, ((int) (process * 0.022)), 15, 22, 15);
+
+            process = (float)machineBlockEntity.energyStorage.getEnergyStored()/machineBlockEntity.energyStorage.getMaxEnergyStored();
+            RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/electricity_full.png"));
+            this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, (int)(process*80), 16, 80);
         }
 
         RenderSystem.disableBlend();

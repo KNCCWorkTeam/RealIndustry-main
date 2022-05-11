@@ -30,6 +30,8 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
+import static org.openjdk.nashorn.internal.objects.Global.undefined;
+
 public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
@@ -37,7 +39,7 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     private int burnTimeOdd = 0;
     public ContainerData data = new SimpleContainerData(1);
     public String displayName;
-    Item burningFuel;
+    int efficient;
     int capacity;
     int maxReceive;
     int maxExtract;
@@ -57,22 +59,21 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         BlockEntity entity = level.getBlockEntity(blockPos);
         if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
-            System.out.println(generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem()));
-            EnergyStorage before = generatorBlockEntity.energyStorage;
             if (generatorBlockEntity.getBurnTimeOdd()==0) {
-                if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
-                    if (generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem())!=0) {
-                        generatorBlockEntity.addBurnTimeOdd(1000);
-                        generatorBlockEntity.stacks.get(0).shrink(1);
-                        generatorBlockEntity.burningFuel = generatorBlockEntity.stacks.get(0).getItem();
-                    }
+                if (generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem())!=-1) {
+                    generatorBlockEntity.addBurnTimeOdd(1000);
+                    generatorBlockEntity.stacks.get(0).shrink(1);
+                    generatorBlockEntity.efficient = generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem());
                 }
             } else {
-                generatorBlockEntity.reduceBurnTimeOdd(1000 / generatorBlockEntity.fuelEfficient(generatorBlockEntity.burningFuel));
-                if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
-                    generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick);
-                } else {
-                    generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, generatorBlockEntity.capacity);
+                EnergyStorage before = generatorBlockEntity.energyStorage;
+                if (generatorBlockEntity.efficient!=-1) {
+                    generatorBlockEntity.reduceBurnTimeOdd(1000 / generatorBlockEntity.efficient);
+                    if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
+                        generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick);
+                    } else {
+                        generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, generatorBlockEntity.capacity);
+                    }
                 }
             }
         }
@@ -168,7 +169,7 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
         return index != 0;
     }
 
-    EnergyStorage energyStorage = new EnergyStorage(400000, 200, 200, 0) {
+    public EnergyStorage energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
             int retval = super.receiveEnergy(maxReceive, simulate);

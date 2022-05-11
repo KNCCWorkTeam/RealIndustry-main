@@ -58,13 +58,19 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 		RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/furnace_burn.png"));
 		blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13, 13, 13);
 
+		RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/electricity.png"));
+		this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, 80, 16, 80);
+
 		BlockEntity entity = machineComponent.getEntity();
 
 		if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
-			int process = generatorBlockEntity.data.get(0);
+			float process = generatorBlockEntity.data.get(0);
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry", "textures/gui/container/furnace.png"));
-			System.out.println(13-(int) (process * 0.026));
 			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.013), 13, 13);
+
+			process = (float)generatorBlockEntity.energyStorage.getEnergyStored()/generatorBlockEntity.energyStorage.getMaxEnergyStored();
+			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/electricity_full.png"));
+			this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, (int)(process*80), 16, 80);
 		}
 
 		RenderSystem.disableBlend();

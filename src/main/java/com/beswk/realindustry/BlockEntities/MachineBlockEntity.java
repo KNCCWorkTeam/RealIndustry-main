@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -68,6 +69,28 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
         }
 
     }
+
+    public EnergyStorage energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
+        @Override
+        public int receiveEnergy(int maxReceive, boolean simulate) {
+            int retval = super.receiveEnergy(maxReceive, simulate);
+            if (!simulate) {
+                setChanged();
+                level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
+            }
+            return retval;
+        }
+
+        @Override
+        public int extractEnergy(int maxExtract, boolean simulate) {
+            int retval = super.extractEnergy(maxExtract, simulate);
+            if (!simulate) {
+                setChanged();
+                level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
+            }
+            return retval;
+        }
+    };
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
@@ -173,8 +196,9 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
         this.process += time;
         this.data.set(0,getProcessOdd());
         if (process>=1000) {
-            process = 0;
             complete();
+            process = 0;
+            this.data.set(0,getProcessOdd());
         }
     }
 
@@ -183,55 +207,43 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
     }
 
     public Item getInputItem() {
-        Item item = null;
+        if (getInputItemIndex()==-1) return null;
+        return stacks.get(getInputItemIndex()).getItem();
+    }
+
+    public int getInputItemIndex() {
         if (!stacks.get(0).isEmpty()) {
-            item = stacks.get(0).getItem();
+            return 0;
         } else if (!stacks.get(1).isEmpty()) {
-            item = stacks.get(1).getItem();
+            return 1;
         } else if (!stacks.get(2).isEmpty()) {
-            item = stacks.get(2).getItem();
+            return 2;
         } else if (!stacks.get(3).isEmpty()) {
-            item = stacks.get(3).getItem();
+            return 3;
         } else if (!stacks.get(4).isEmpty()) {
-            item = stacks.get(4).getItem();
+            return 4;
         } else if (!stacks.get(5).isEmpty()) {
-            item = stacks.get(5).getItem();
+            return 5;
         }
-        return item;
+        return -1;
     }
 
     public void complete() {
-        Item item = null;
-        if (!stacks.get(0).isEmpty()) {
-            stacks.get(0).shrink(1);
-            item = stacks.get(0).getItem();
-        } else if (!stacks.get(1).isEmpty()) {
-            stacks.get(1).shrink(1);
-            item = stacks.get(1).getItem();
-        } else if (!stacks.get(2).isEmpty()) {
-            stacks.get(2).shrink(1);
-            item = stacks.get(2).getItem();
-        } else if (!stacks.get(3).isEmpty()) {
-            stacks.get(3).shrink(1);
-            item = stacks.get(3).getItem();
-        } else if (!stacks.get(4).isEmpty()) {
-            stacks.get(4).shrink(1);
-            item = stacks.get(4).getItem();
-        } else if (!stacks.get(5).isEmpty()) {
-            stacks.get(5).shrink(1);
-            item = stacks.get(5).getItem();
-        }
-        if (item!=null) {
-            ItemStack output = completeMap(item);
+        if (getInputItem()!=null) {
+            ItemStack output = completeMap(getInputItem());
             if (output!=null) {
                 if (stacks.get(6).is(output.getItem())) {
                     stacks.get(6).setCount(stacks.get(6).getCount() + output.getCount());
+                    stacks.get(getInputItemIndex()).shrink(1);
                 } else if (stacks.get(6).isEmpty()) {
                     stacks.set(6, output);
+                    stacks.get(getInputItemIndex()).shrink(1);
                 } else if (stacks.get(7).is(output.getItem())) {
                     stacks.get(7).setCount(stacks.get(7).getCount() + output.getCount());
+                    stacks.get(getInputItemIndex()).shrink(1);
                 } else if (stacks.get(7).isEmpty()) {
                     stacks.set(7, output);
+                    stacks.get(getInputItemIndex()).shrink(1);
                 }
             }
         }

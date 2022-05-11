@@ -1,6 +1,5 @@
 package com.beswk.realindustry.Blocks;
 
-import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
 import com.beswk.realindustry.BlockEntities.GrinderBlockEntities;
 import com.beswk.realindustry.util.BlockEntities;
 import com.beswk.realindustry.util.Class.MachineComponent;

@@ -13,6 +13,8 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,6 +41,7 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
     int maxReceive;
     int maxExtract;
     int energy;
+    public EnergyStorage energyStorage;
 
     public MachineBlockEntity(String displayName, int capacity, int maxReceive, int maxExtract, int energy, BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
@@ -47,6 +50,57 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.energy = energy;
+        this.energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
+            @Override
+            public int receiveEnergy(int maxReceive, boolean simulate) {
+                int retval = super.receiveEnergy(maxReceive, simulate);
+                if (!simulate) {
+                    setChanged();
+                    level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
+                }
+                return retval;
+            }
+
+            @Override
+            public int extractEnergy(int maxExtract, boolean simulate) {
+                int retval = super.extractEnergy(maxExtract, simulate);
+                if (!simulate) {
+                    setChanged();
+                    level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
+                }
+                return retval;
+            }
+        };
+    }
+
+    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
+        BlockEntity entity = level.getBlockEntity(blockPos);
+        if (entity instanceof GrinderBlockEntities grinderBlockEntities) {
+            if (grinderBlockEntities.completeMap(grinderBlockEntities.getInputItem())!=null) {
+                if (grinderBlockEntities.energyStorage.getEnergyStored() >= 5) {
+                    grinderBlockEntities.energyStorage = new EnergyStorage(grinderBlockEntities.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntities.energyStorage.getEnergyStored() - 5);
+                    grinderBlockEntities.addProcess(10);
+                }
+            }
+        }
+        BlockEntity nearGenerator = null;
+        for (int i = 0; i < 6; i++) {
+            if (nearGenerator instanceof GeneratorBlockEntity) {
+                break;
+            }
+            switch (i) {
+                case 0 -> nearGenerator = level.getBlockEntity(blockPos.above());
+                case 1 -> nearGenerator = level.getBlockEntity(blockPos.below());
+                case 2 -> nearGenerator = level.getBlockEntity(blockPos.east());
+                case 3 -> nearGenerator = level.getBlockEntity(blockPos.west());
+                case 4 -> nearGenerator = level.getBlockEntity(blockPos.south());
+                case 5 -> nearGenerator = level.getBlockEntity(blockPos.north());
+            }
+        }
+        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity&&generatorBlockEntity.energyStorage.getEnergyStored() >= 5&&entity instanceof GrinderBlockEntities grinderBlockEntities) {
+            grinderBlockEntities.energyStorage = new EnergyStorage(grinderBlockEntities.energyStorage.getMaxEnergyStored(), 200, 200, grinderBlockEntities.energyStorage.getEnergyStored() + 5);
+            generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.energyStorage.getMaxEnergyStored(), 200, 200, generatorBlockEntity.energyStorage.getEnergyStored() - 5);
+        }
     }
 
     @Override
@@ -67,30 +121,7 @@ public abstract class MachineBlockEntity extends RandomizableContainerBlockEntit
         if (!this.trySaveLootTable(compound)) {
             ContainerHelper.saveAllItems(compound, this.stacks);
         }
-
     }
-
-    public EnergyStorage energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            int retval = super.receiveEnergy(maxReceive, simulate);
-            if (!simulate) {
-                setChanged();
-                level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
-            }
-            return retval;
-        }
-
-        @Override
-        public int extractEnergy(int maxExtract, boolean simulate) {
-            int retval = super.extractEnergy(maxExtract, simulate);
-            if (!simulate) {
-                setChanged();
-                level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
-            }
-            return retval;
-        }
-    };
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {

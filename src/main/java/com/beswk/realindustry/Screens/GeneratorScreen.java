@@ -69,6 +69,7 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.013), 13, 13);
 
 			process = (float)generatorBlockEntity.energyStorage.getEnergyStored()/generatorBlockEntity.energyStorage.getMaxEnergyStored();
+			System.out.println("electricity"+(int)(process*80));
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/electricity_full.png"));
 			this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, (int)(process*80), 16, 80);
 		}

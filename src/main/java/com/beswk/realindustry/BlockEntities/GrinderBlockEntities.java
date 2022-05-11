@@ -22,47 +22,6 @@ public class GrinderBlockEntities extends MachineBlockEntity{
         super("grinder", 1000, 200, 200, 0, BlockEntities.GRINDER, position, state);
     }
 
-    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
-        BlockEntity nearGenerator = null;
-        for (int i = 0;i<6;i++) {
-            if (nearGenerator instanceof GeneratorBlockEntity) {
-                break;
-            }
-            switch (i) {
-                case 0:
-                    nearGenerator = level.getBlockEntity(blockPos.above());
-                    break;
-                case 1:
-                    nearGenerator = level.getBlockEntity(blockPos.below());
-                    break;
-                case 2:
-                    nearGenerator = level.getBlockEntity(blockPos.east());
-                    break;
-                case 3:
-                    nearGenerator = level.getBlockEntity(blockPos.west());
-                    break;
-                case 4:
-                    nearGenerator = level.getBlockEntity(blockPos.south());
-                    break;
-                case 5:
-                    nearGenerator = level.getBlockEntity(blockPos.north());
-                    break;
-            }
-        }
-        if (nearGenerator instanceof GeneratorBlockEntity generatorBlockEntity) {
-            if (generatorBlockEntity.energyStorage.getEnergyStored()>=5) {
-                BlockEntity entity = level.getBlockEntity(blockPos);
-                if (entity instanceof GrinderBlockEntities grinderBlockEntities) {
-                    if (grinderBlockEntities.completeMap(grinderBlockEntities.getInputItem()) != null) {
-                        EnergyStorage before = ((GeneratorBlockEntity) nearGenerator).energyStorage;
-                        before = new EnergyStorage(before.getMaxEnergyStored(), 200, 200, before.getEnergyStored() - 5);
-                        grinderBlockEntities.addProcess(10);
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory) {
         return new GrinderMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition));

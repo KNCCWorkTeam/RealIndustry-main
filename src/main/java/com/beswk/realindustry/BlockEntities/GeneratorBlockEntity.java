@@ -37,23 +37,47 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
     private int burnTimeOdd = 0;
+    boolean canConnectToCable;
     public ContainerData data = new SimpleContainerData(1);
     public String displayName;
     int efficient;
+    public EnergyStorage energyStorage;
     int capacity;
     int maxReceive;
     int maxExtract;
     int energy;
     int generateAmountPerTick;
 
-    public GeneratorBlockEntity(String displayName,int capacity,int maxReceive,int maxExtract,int energy,int generateAmountPerTick,BlockEntityType<?> entity, BlockPos position, BlockState state) {
+    public GeneratorBlockEntity(boolean canConnectToCable,String displayName,int capacity,int maxReceive,int maxExtract,int energy,int generateAmountPerTick,BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
+        this.canConnectToCable = canConnectToCable;
         this.displayName = displayName;
+        this.generateAmountPerTick = generateAmountPerTick;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.energy = energy;
-        this.generateAmountPerTick = generateAmountPerTick;
+        energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
+            @Override
+            public int receiveEnergy(int maxReceive, boolean simulate) {
+                int retval = super.receiveEnergy(maxReceive, simulate);
+                if (!simulate) {
+                    setChanged();
+                    level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
+                }
+                return retval;
+            }
+
+            @Override
+            public int extractEnergy(int maxExtract, boolean simulate) {
+                int retval = super.extractEnergy(maxExtract, simulate);
+                if (!simulate) {
+                    setChanged();
+                    level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
+                }
+                return retval;
+            }
+        };
     }
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
@@ -168,28 +192,6 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index != 0;
     }
-
-    public EnergyStorage energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            int retval = super.receiveEnergy(maxReceive, simulate);
-            if (!simulate) {
-                setChanged();
-                level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
-            }
-            return retval;
-        }
-
-        @Override
-        public int extractEnergy(int maxExtract, boolean simulate) {
-            int retval = super.extractEnergy(maxExtract, simulate);
-            if (!simulate) {
-                setChanged();
-                level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 2);
-            }
-            return retval;
-        }
-    };
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {

@@ -3,7 +3,7 @@ package com.beswk.realindustry.Screens;
 
 import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
 import com.beswk.realindustry.Menu.GeneratorMenu;
-import com.beswk.realindustry.util.Class.GeneratorComponent;
+import com.beswk.realindustry.util.Class.MachineComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -17,17 +17,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.HashMap;
 
-public abstract class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
+public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 	private final static HashMap<String, Object> guistate = GeneratorMenu.guistate;
 	private final Level world;
 	private final int x, y, z;
 	private final Player entity;
-	private GeneratorComponent generatorComponent;
+	private MachineComponent machineComponent;
 
 	public GeneratorScreen(GeneratorMenu container, Inventory inventory, Component text) {
 		super(container, inventory, text);
-		if (text instanceof GeneratorComponent generatorComponent) {
-			this.generatorComponent = generatorComponent;
+		if (text instanceof MachineComponent machineComponent) {
+			this.machineComponent = machineComponent;
 		}
 		this.world = container.world;
 		this.x = container.x;
@@ -58,12 +58,11 @@ public abstract class GeneratorScreen extends AbstractContainerScreen<GeneratorM
 		RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/furnace_burn.png"));
 		blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13, 13, 13);
 
-		BlockEntity entity = generatorComponent.getEntity();
+		BlockEntity entity = machineComponent.getEntity();
 
 		if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
 			int process = generatorBlockEntity.data.get(0);
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry", "textures/gui/container/furnace.png"));
-			System.out.println(this.topPos + 26 - (int) (process * 0.26));
 			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.26), 13, 13);
 		}
 

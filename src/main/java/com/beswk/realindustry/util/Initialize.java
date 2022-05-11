@@ -12,6 +12,7 @@ public class Initialize {
         Block ENDERITE_BLOCK = Blocks.ENDERITE_BLOCK;
         Block ENDER_DRAGON_DEBRIS = Blocks.ENDER_DRAGON_DEBRIS;
         Block INTERNAL_COMBUSTION_ENGINE = Blocks.INTERNAL_COMBUSTION_ENGINE;
+        Block GRINDER = Blocks.GRINDER;
 
         Item ENDERITE_INGOT = Items.ENDERITE_INGOT;
         Item ENDERITE_SCRAP = Items.ENDERITE_SCRAP;
@@ -25,6 +26,7 @@ public class Initialize {
         Item AN_UNBREAKABLE_ALLIANCE = Items.AN_UNBREAKABLE_ALLIANCE;
 
         MenuType<?> INTERNAL_COMBUSTION_MACHINE_MENU = Menus.INTERNAL_COMBUSTION_MACHINE_MENU;
+        MenuType<?> GRINDER_MENU = Menus.GRINDER;
 
         RegistryObject<Item> ENDERITE_HELMET = Items.ENDERITE_HELMET;
         RegistryObject<Item> ENDERITE_CHESTPLATE = Items.ENDERITE_CHESTPLATE;
@@ -32,6 +34,7 @@ public class Initialize {
         RegistryObject<Item> ENDERITE_BOOTS = Items.ENDERITE_BOOTS;
 
         BlockEntityType<?> INTERNAL_COMBUSTION_ENGINE_ENTITY = BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY;
+        BlockEntityType<?> GRINDER_ENTITY = BlockEntities.GRINDER;
 
         Items.ITEMS.register(RealIndustry.bus);
     }

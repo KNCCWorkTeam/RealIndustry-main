@@ -4,16 +4,15 @@ import com.beswk.realindustry.CreativeTabs.IndustryMaterial;
 import com.beswk.realindustry.CreativeTabs.Material;
 import com.beswk.realindustry.CreativeTabs.Tool;
 import com.beswk.realindustry.Screens.GeneratorScreen;
+import com.beswk.realindustry.Screens.GrinderScreen;
+import com.beswk.realindustry.Screens.InternalCombustionEngineScreen;
 import com.beswk.realindustry.util.Initialize;
 import com.beswk.realindustry.util.Menus;
 import com.beswk.realindustry.util.OreFeature;
-import com.mojang.blaze3d.platform.ScreenManager;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FurnaceBlock;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -62,7 +61,10 @@ public class RealIndustry {
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        event.enqueueWork(() -> MenuScreens.register(Menus.INTERNAL_COMBUSTION_MACHINE_MENU, GeneratorScreen::new));
+        event.enqueueWork(() -> {
+            MenuScreens.register(Menus.INTERNAL_COMBUSTION_MACHINE_MENU, InternalCombustionEngineScreen::new);
+            MenuScreens.register(Menus.GRINDER, GrinderScreen::new);
+        });
     }
 
 

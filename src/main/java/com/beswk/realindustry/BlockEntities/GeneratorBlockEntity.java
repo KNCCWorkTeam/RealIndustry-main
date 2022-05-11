@@ -1,41 +1,34 @@
 package com.beswk.realindustry.BlockEntities;
 
-import com.beswk.realindustry.Menu.GeneratorMenu;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.capabilities.Capability;
-
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.nbt.IntTag;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
-
 import java.util.stream.IntStream;
-
-import io.netty.buffer.Unpooled;
 
 public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
@@ -44,21 +37,52 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     private int burnTimeOdd = 0;
     public ContainerData data = new SimpleContainerData(1);
     public String displayName;
+    Item burningFuel;
     int capacity;
     int maxReceive;
     int maxExtract;
     int energy;
+    int generateAmountPerTick;
 
-    public GeneratorBlockEntity(String displayName,int capacity,int maxReceive,int maxExtract,int energy,BlockEntityType<?> entity, BlockPos position, BlockState state) {
+    public GeneratorBlockEntity(String displayName,int capacity,int maxReceive,int maxExtract,int energy,int generateAmountPerTick,BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
         this.displayName = displayName;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.energy = energy;
+        this.generateAmountPerTick = generateAmountPerTick;
     }
 
-    @Override
+    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
+        BlockEntity entity = level.getBlockEntity(blockPos);
+        if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
+            EnergyStorage before = generatorBlockEntity.energyStorage;
+            if (generatorBlockEntity.getBurnTimeOdd()==0) {
+                if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
+                    if (!generatorBlockEntity.stacks.get(0).isEmpty()) {
+                        generatorBlockEntity.addBurnTimeOdd(1000);
+                        if (generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem())>=0) {
+                            generatorBlockEntity.stacks.get(0).shrink(1);
+                            generatorBlockEntity.burningFuel = generatorBlockEntity.stacks.get(0).getItem();
+                        }
+                    }
+                }
+            } else {
+                generatorBlockEntity.reduceBurnTimeOdd(1000 / generatorBlockEntity.fuelEfficient(generatorBlockEntity.burningFuel));
+                if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
+                    generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick);
+                } else {
+                    generatorBlockEntity.energyStorage = new EnergyStorage(generatorBlockEntity.capacity, generatorBlockEntity.maxReceive, generatorBlockEntity.maxExtract, generatorBlockEntity.capacity);
+                }
+            }
+        }
+    }
+
+    public abstract int fuelEfficient(Item item);
+
+
+        @Override
     public void load(CompoundTag compound) {
         super.load(compound);
         if (!this.tryLoadLootTable(compound))
@@ -108,11 +132,6 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     @Override
     public int getMaxStackSize() {
         return 64;
-    }
-
-    @Override
-    public AbstractContainerMenu createMenu(int id, Inventory inventory) {
-        return new GeneratorMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition),data);
     }
 
     @Override

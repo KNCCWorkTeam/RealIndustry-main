@@ -1,18 +1,10 @@
 package com.beswk.realindustry.Blocks;
 
 import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
-import com.beswk.realindustry.BlockEntities.InternalCombustionEngineBlockEntity;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
-import com.beswk.realindustry.util.Class.MachineComponent;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -24,15 +16,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlock {
+public abstract class MachineBlock extends MinecraftBlock implements EntityBlock {
     String displayName;
-    public GeneratorBlock(String displayName) {
+    public MachineBlock(String displayName) {
         super(Material.METAL, MaterialColor.COLOR_LIGHT_GRAY, 3.5f,3.5f, SoundType.METAL);
         this.displayName = displayName;
     }

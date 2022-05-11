@@ -23,10 +23,12 @@ public class InternalCombustionEngineBlockEntity extends GeneratorBlockEntity{
         return new InternalCombustionEngineMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition));
     }
 
+    @Override
     public int fuelEfficient(Item item) {
         HashMap<Item,Integer> itemIntegerHashMap = new HashMap<>();
         itemIntegerHashMap.put(Items.COAL,100);
         itemIntegerHashMap.put(Items.COAL_BLOCK,1000);
+        itemIntegerHashMap.put(Items.CHARCOAL,1000);
         return itemIntegerHashMap.get(item)==null?0:itemIntegerHashMap.get(item);
     }
 }

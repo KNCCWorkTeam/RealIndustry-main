@@ -63,7 +63,8 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 		if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
 			int process = generatorBlockEntity.data.get(0);
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry", "textures/gui/container/furnace.png"));
-			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.26), 13, 13);
+			System.out.println(13-(int) (process * 0.026));
+			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.013), 13, 13);
 		}
 
 		RenderSystem.disableBlend();

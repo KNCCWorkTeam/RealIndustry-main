@@ -57,15 +57,14 @@ public abstract class GeneratorBlockEntity extends RandomizableContainerBlockEnt
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         BlockEntity entity = level.getBlockEntity(blockPos);
         if (entity instanceof GeneratorBlockEntity generatorBlockEntity) {
+            System.out.println(generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem()));
             EnergyStorage before = generatorBlockEntity.energyStorage;
             if (generatorBlockEntity.getBurnTimeOdd()==0) {
                 if (before.getEnergyStored() + generatorBlockEntity.generateAmountPerTick <= 400000) {
-                    if (!generatorBlockEntity.stacks.get(0).isEmpty()) {
+                    if (generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem())!=0) {
                         generatorBlockEntity.addBurnTimeOdd(1000);
-                        if (generatorBlockEntity.fuelEfficient(generatorBlockEntity.stacks.get(0).getItem())>=0) {
-                            generatorBlockEntity.stacks.get(0).shrink(1);
-                            generatorBlockEntity.burningFuel = generatorBlockEntity.stacks.get(0).getItem();
-                        }
+                        generatorBlockEntity.stacks.get(0).shrink(1);
+                        generatorBlockEntity.burningFuel = generatorBlockEntity.stacks.get(0).getItem();
                     }
                 }
             } else {

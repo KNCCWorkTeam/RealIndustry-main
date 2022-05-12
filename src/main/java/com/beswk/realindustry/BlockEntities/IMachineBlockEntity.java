@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -33,6 +34,8 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
 
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
+    int energyCost;
+    int speed;
     private int process = 0;
     public ObjectData data = new ObjectData(1,1);
     public String displayName;
@@ -42,8 +45,10 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
     int energy;
     public TypeEnergyStorage energyStorage;
 
-    public IMachineBlockEntity(EnergyType type, String displayName, int capacity, int maxReceive, int maxExtract, int energy, BlockEntityType<?> entity, BlockPos position, BlockState state) {
+    public IMachineBlockEntity(int energyCost,int speed,EnergyType type, String displayName, int capacity, int maxReceive, int maxExtract, int energy, BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
+        this.energyCost = energyCost;
+        this.speed = speed;
         this.displayName = displayName;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
@@ -87,7 +92,7 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
         if (entity instanceof IMachineBlockEntity machineBlockEntity) {
             if (machineBlockEntity.completeMap(machineBlockEntity.getInputItem())!=null) {
                 if (machineBlockEntity.energyStorage.getEnergyStored() >= 5) {
-                    machineBlockEntity.energyStorage.processReduceEnergy(machineBlockEntity,5,10);
+                    machineBlockEntity.energyStorage.processReduceEnergy(machineBlockEntity,machineBlockEntity.energyCost,machineBlockEntity.speed);
                 }
             }
         }
@@ -96,21 +101,20 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
     @Override
     public void load(CompoundTag compound) {
         super.load(compound);
-
         if (!this.tryLoadLootTable(compound))
             this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-
         ContainerHelper.loadAllItems(compound, this.stacks);
-
+        if (compound.get("energyStorage") instanceof IntTag intTag)
+            energyStorage.deserializeNBT(intTag);
     }
 
     @Override
     public void saveAdditional(CompoundTag compound) {
         super.saveAdditional(compound);
-
         if (!this.trySaveLootTable(compound)) {
             ContainerHelper.saveAllItems(compound, this.stacks);
         }
+        compound.put("energyStorage", energyStorage.serializeNBT());
     }
 
     @Override

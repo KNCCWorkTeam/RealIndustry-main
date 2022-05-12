@@ -1,6 +1,7 @@
 
 package com.beswk.realindustry.Menu;
 
+import com.beswk.realindustry.util.Menus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -8,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -31,8 +31,8 @@ public class GeneratorMenu extends AbstractContainerMenu implements Supplier<Map
 	private final Map<Integer, Slot> customSlots = new HashMap<>();
 	private boolean bound = false;
 
-	public GeneratorMenu(MenuType<?> menu, int id, Inventory inv, FriendlyByteBuf extraData) {
-		super(menu, id);
+	public GeneratorMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
+		super(Menus.GENERATOR_MENU, id);
 		this.entity = inv.player;
 		this.world = inv.player.level;
 		this.internal = new ItemStackHandler(1);

@@ -6,7 +6,7 @@ public enum EnergyType {
     //kinetic energy
     KE(2),
     //heat energy
-    HE(4);
+    HE(3);
 
     final int energyTime;
     EnergyType(int energyTime) {

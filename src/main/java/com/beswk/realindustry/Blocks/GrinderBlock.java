@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class GrinderBlock extends MachineBlock{
+public class GrinderBlock extends IMachineBlock {
     public GrinderBlock() {
         super("grinder");
     }

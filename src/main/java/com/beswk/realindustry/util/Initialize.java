@@ -25,8 +25,9 @@ public class Initialize {
 
         Item AN_UNBREAKABLE_ALLIANCE = Items.AN_UNBREAKABLE_ALLIANCE;
 
-        MenuType<?> INTERNAL_COMBUSTION_MACHINE_MENU = Menus.INTERNAL_COMBUSTION_MACHINE_MENU;
-        MenuType<?> GRINDER_MENU = Menus.GRINDER;
+        MenuType<?> SENIOR_GENERATOR_MENU = Menus.SENIOR_GENERATOR_MENU;
+        MenuType<?> GENERATOR_MENU = Menus.GENERATOR_MENU;
+        MenuType<?> MACHINE_MENU = Menus.MACHINE_MENU;
 
         RegistryObject<Item> ENDERITE_HELMET = Items.ENDERITE_HELMET;
         RegistryObject<Item> ENDERITE_CHESTPLATE = Items.ENDERITE_CHESTPLATE;

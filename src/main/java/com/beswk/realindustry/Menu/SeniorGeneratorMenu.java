@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class MachineMenu extends AbstractContainerMenu implements Supplier<Map<Integer, Slot>> {
+public class SeniorGeneratorMenu extends AbstractContainerMenu implements Supplier<Map<Integer, Slot>> {
 
     public final static HashMap<String, Object> guistate = new HashMap<>();
 
@@ -35,13 +35,13 @@ public class MachineMenu extends AbstractContainerMenu implements Supplier<Map<I
 
     private boolean bound = false;
 
-    public MachineMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        super(Menus.MACHINE_MENU, id);
+    public SeniorGeneratorMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
+        super(Menus.SENIOR_GENERATOR_MENU, id);
 
         this.entity = inv.player;
         this.world = inv.player.level;
 
-        this.internal = new ItemStackHandler(8);
+        this.internal = new ItemStackHandler(4);
 
         BlockPos pos = null;
         if (extraData != null) {
@@ -82,28 +82,16 @@ public class MachineMenu extends AbstractContainerMenu implements Supplier<Map<I
             }
         }
 
-        this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 25, 26) {
+        this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 43, 54) {
 
         }));
-        this.customSlots.put(1, this.addSlot(new SlotItemHandler(internal, 1, 43, 26) {
+        this.customSlots.put(1, this.addSlot(new SlotItemHandler(internal, 1, 43, 19) {
 
         }));
-        this.customSlots.put(2, this.addSlot(new SlotItemHandler(internal, 2, 61, 26) {
+        this.customSlots.put(2, this.addSlot(new SlotItemHandler(internal, 2, 115, 54) {
 
         }));
-        this.customSlots.put(3, this.addSlot(new SlotItemHandler(internal, 3, 25, 44) {
-
-        }));
-        this.customSlots.put(4, this.addSlot(new SlotItemHandler(internal, 4, 43, 44) {
-
-        }));
-        this.customSlots.put(5, this.addSlot(new SlotItemHandler(internal, 5, 61, 44) {
-
-        }));
-        this.customSlots.put(6, this.addSlot(new SlotItemHandler(internal, 6, 115, 26) {
-
-        }));
-        this.customSlots.put(7, this.addSlot(new SlotItemHandler(internal, 7, 115, 44) {
+        this.customSlots.put(3, this.addSlot(new SlotItemHandler(internal, 3, 115, 19) {
 
         }));
 
@@ -130,18 +118,18 @@ public class MachineMenu extends AbstractContainerMenu implements Supplier<Map<I
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
-            if (index < 8) {
-                if (!this.moveItemStackTo(itemstack1, 8, this.slots.size(), true)) {
+            if (index < 4) {
+                if (!this.moveItemStackTo(itemstack1, 4, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickCraft(itemstack1, itemstack);
-            } else if (!this.moveItemStackTo(itemstack1, 0, 8, false)) {
-                if (index < 8 + 27) {
-                    if (!this.moveItemStackTo(itemstack1, 8 + 27, this.slots.size(), true)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, 4, false)) {
+                if (index < 4 + 27) {
+                    if (!this.moveItemStackTo(itemstack1, 4 + 27, this.slots.size(), true)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
-                    if (!this.moveItemStackTo(itemstack1, 8, 8 + 27, false)) {
+                    if (!this.moveItemStackTo(itemstack1, 4, 4 + 27, false)) {
                         return ItemStack.EMPTY;
                     }
                 }

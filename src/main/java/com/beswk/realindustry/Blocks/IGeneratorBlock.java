@@ -4,6 +4,7 @@ import com.beswk.realindustry.BlockEntities.IGeneratorBlockEntity;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
 import com.beswk.realindustry.util.Class.MachineComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
@@ -14,12 +15,17 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -29,11 +35,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlock {
+public abstract class IGeneratorBlock extends MinecraftBlock implements EntityBlock {
     String displayName;
-    public GeneratorBlock(String displayName) {
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public IGeneratorBlock(String displayName) {
         super(Material.METAL, MaterialColor.COLOR_LIGHT_GRAY, 3.5f,3.5f, SoundType.METAL);
         this.displayName = displayName;
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Override
@@ -41,12 +49,23 @@ public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlo
         return 15;
     }
 
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext p_49820_) {
+        return this.defaultBlockState().setValue(FACING, p_49820_.getHorizontalDirection().getOpposite());
+    }
+
     abstract AbstractContainerMenu createMenu(Level world, BlockPos pos, int integer, Inventory inventory, Player player);
 
     @Override
     public InteractionResult use(BlockState blockstate, Level world, BlockPos pos, Player entity, InteractionHand hand, BlockHitResult hit) {
         super.use(blockstate, world, pos, entity, hand, hit);
-        GeneratorBlock block = this;
+        IGeneratorBlock block = this;
         if (entity instanceof ServerPlayer player) {
             player.openMenu(new MenuProvider() {
                 @Override

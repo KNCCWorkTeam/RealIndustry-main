@@ -3,6 +3,11 @@ package com.beswk.realindustry.BlockEntities;
 import com.beswk.realindustry.util.Class.EnergyType;
 import com.beswk.realindustry.util.Class.TypeEnergyStorage;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,6 +30,19 @@ public abstract class ICableBlockEntity extends BlockEntity implements Conductio
     @Override
     public EnergyExportType getEnergyExportType() {
         return EnergyExportType.CABLE;
+    }
+
+    @Override
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        if (compound.get("energyStorage") instanceof IntTag intTag)
+            energyStorage.deserializeNBT(intTag);
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.put("energyStorage", energyStorage.serializeNBT());
     }
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "realindustry:block/ke_generator"
+    }
+  }
+}

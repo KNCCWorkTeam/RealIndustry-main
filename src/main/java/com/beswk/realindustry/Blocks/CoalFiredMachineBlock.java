@@ -1,5 +1,6 @@
 package com.beswk.realindustry.Blocks;
 
+import com.beswk.realindustry.BlockEntities.CoalFiredMachineBlockEntity;
 import com.beswk.realindustry.BlockEntities.InternalCombustionEngineBlockEntity;
 import com.beswk.realindustry.util.BlockEntities;
 import net.minecraft.core.BlockPos;
@@ -13,27 +14,27 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class InternalCombustionEngineBlock extends IGeneratorBlock {
-    public InternalCombustionEngineBlock() {
-        super("internal_combustion_engine");
+public class CoalFiredMachineBlock extends IGeneratorBlock{
+    public CoalFiredMachineBlock() {
+        super("coal_fired_machine");
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY ? InternalCombustionEngineBlockEntity::tick : null;
+        return blockEntityType == BlockEntities.COAL_FIRED_MACHINE_ENTITY ? CoalFiredMachineBlockEntity::tick : null;
     }
 
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new InternalCombustionEngineBlockEntity(pos, state);
+        return new CoalFiredMachineBlockEntity(pos, state);
     }
 
     @Override
-    AbstractContainerMenu createMenu(Level world,BlockPos pos,int integer,Inventory inventory,Player player) {
-        if (world.getBlockEntity(pos) instanceof InternalCombustionEngineBlockEntity internalCombustionEngineBlockEntity) {
-            return internalCombustionEngineBlockEntity.createMenu(integer,inventory);
+    AbstractContainerMenu createMenu(Level world, BlockPos pos, int integer, Inventory inventory, Player player) {
+        if (world.getBlockEntity(pos) instanceof CoalFiredMachineBlockEntity coalFiredMachineBlockEntity) {
+            return coalFiredMachineBlockEntity.createMenu(integer,inventory);
         }
         return null;
     }

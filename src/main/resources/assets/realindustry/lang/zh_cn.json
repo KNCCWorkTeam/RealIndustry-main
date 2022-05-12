@@ -19,6 +19,7 @@
   "block.realindustry.grinder": "粉碎机",
   "block.realindustry.cable": "导电方块",
   "block.realindustry.ke_generator": "动能发电机",
+  "itemGroup.machine_tab": "机器",
   "itemGroup.material_tab": "材料",
   "itemGroup.industry_material_tab": "工业材料",
   "itemGroup.tool_tab": "工具"

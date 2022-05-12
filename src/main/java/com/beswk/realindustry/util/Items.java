@@ -17,7 +17,10 @@ public class Items {
     public static final Item ENDERITE_INGOT = Registry.registerItem(new EnderiteIngot(),"enderite_ingot", RealIndustry.bus);
     public static final Item ENDERITE_SCRAP = Registry.registerItem(new EnderiteScrap(),"enderite_scrap", RealIndustry.bus);
 
+
     public static final Item PISTON_RING = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"piston_ring",RealIndustry.bus);
+    public static final Item IRON_OXIDE_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"fe2o3",RealIndustry.bus);
+    public static final Item IRON_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_dust",RealIndustry.bus);
 
     public static final Item ENDERITE_SWORD = Registry.registerItem(new SwordItem(Tiers.Enderite, 3,-2.4f, Registry.getItem(RealIndustry.TOOL)),"enderite_sword",RealIndustry.bus);
     public static final Item ENDERITE_HOE = Registry.registerItem(new HoeItem(Tiers.Enderite, -4,0, Registry.getItem(RealIndustry.TOOL)),"enderite_hoe",RealIndustry.bus);

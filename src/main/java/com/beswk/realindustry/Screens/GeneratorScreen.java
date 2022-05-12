@@ -63,13 +63,12 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 
 		BlockEntity entity = machineComponent.getEntity();
 
-		if (entity instanceof IGeneratorBlockEntity IGeneratorBlockEntity) {
-			float process = IGeneratorBlockEntity.data.get(0);
+		if (entity instanceof IGeneratorBlockEntity iGeneratorBlockEntity) {
+			float process = iGeneratorBlockEntity.data.get(0);
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry", "textures/gui/container/furnace.png"));
 			blit(ms, this.leftPos + 80, this.topPos + 26, 0, 0, 13, 13-(int) (process * 0.013), 13, 13);
 
-			process = (float) IGeneratorBlockEntity.energyStorage.getEnergyStored()/ IGeneratorBlockEntity.energyStorage.getMaxEnergyStored();
-			System.out.println("electricity"+(int)(process*80));
+			process = (float) iGeneratorBlockEntity.energyStorage.getEnergyStored()/ iGeneratorBlockEntity.energyStorage.getMaxEnergyStored();
 			RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry","textures/gui/container/electricity_full.png"));
 			this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, (int)(process*80), 16, 80);
 		}

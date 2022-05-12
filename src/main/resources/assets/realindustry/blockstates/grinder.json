@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "realindustry:block/grinder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "realindustry:block/grinder"
+    },
+    "facing=south": {
+      "model": "realindustry:block/grinder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "realindustry:block/grinder",
+      "y": 270
+    }
+  }
+}

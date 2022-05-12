@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
 
-public class InternalCombustionEngineBlockEntity extends ISeniorGeneratorBlockEntity {
-    public InternalCombustionEngineBlockEntity(BlockPos position, BlockState state) {
-        super(EnergyType.KE,"internal_combustion_engine",1000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
+public class CoalFiredMachineBlockEntity extends IGeneratorBlockEntity{
+    public CoalFiredMachineBlockEntity(BlockPos position, BlockState state) {
+        super(EnergyType.HE,"coal_fired_machine",1000,200,200,0,10, BlockEntities.COAL_FIRED_MACHINE_ENTITY, position, state);
     }
 
     @Override
@@ -22,5 +22,4 @@ public class InternalCombustionEngineBlockEntity extends ISeniorGeneratorBlockEn
         itemIntegerHashMap.put(Items.CHARCOAL,1000);
         return itemIntegerHashMap.get(item)==null?-1:itemIntegerHashMap.get(item);
     }
-
 }

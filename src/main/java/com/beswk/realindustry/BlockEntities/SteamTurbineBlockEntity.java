@@ -10,13 +10,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 
-public class KEGeneratorBlockEntity extends IEnergyTypeTransferBlockEntity {
-    public KEGeneratorBlockEntity(BlockPos position, BlockState state) {
-        super(BlockEntities.KE_GENERATOR_ENTITY, position, state);
+public class SteamTurbineBlockEntity extends IEnergyTypeTransferBlockEntity{
+    public SteamTurbineBlockEntity(BlockPos position, BlockState state) {
+        super(BlockEntities.STEAM_TURBINE_ENTITY, position, state);
     }
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
-        ArrayList<Conductionable> nearConductionableKE = new ArrayList<>();
+        ArrayList<Conductionable> nearConductionableHE = new ArrayList<>();
         ArrayList<Conductionable> nearConductionableFE = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             BlockEntity entity = null;
@@ -29,15 +29,15 @@ public class KEGeneratorBlockEntity extends IEnergyTypeTransferBlockEntity {
                 case 5 -> entity = level.getBlockEntity(blockPos.south());
             }
             if (entity instanceof Conductionable conductionable) {
-                if (conductionable.getEnergyStorage().ifSameEnergyType(EnergyType.KE))
-                    nearConductionableKE.add(conductionable);
+                if (conductionable.getEnergyStorage().ifSameEnergyType(EnergyType.HE))
+                    nearConductionableHE.add(conductionable);
                 else if (conductionable.getEnergyStorage().ifSameEnergyType(EnergyType.FE))
                     nearConductionableFE.add(conductionable);
             }
         }
-        for (Conductionable ke:nearConductionableKE) {
+        for (Conductionable he:nearConductionableHE) {
             for (Conductionable fe:nearConductionableFE) {
-                TypeEnergyStorage.transferEnergy(ke.getEnergyStorage(),fe.getEnergyStorage());
+                TypeEnergyStorage.transferEnergy(he.getEnergyStorage(),fe.getEnergyStorage());
             }
         }
     }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "realindustry:block/generator_side",
+    "front": "realindustry:block/grinder_front",
+    "side": "realindustry:block/generator_side"
+  }
+}

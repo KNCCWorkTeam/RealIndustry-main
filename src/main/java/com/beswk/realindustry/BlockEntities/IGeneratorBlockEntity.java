@@ -1,19 +1,22 @@
 package com.beswk.realindustry.BlockEntities;
 
+import com.beswk.realindustry.Menu.GeneratorMenu;
 import com.beswk.realindustry.util.Class.EnergyType;
 import com.beswk.realindustry.util.Class.TypeEnergyStorage;
+import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
@@ -35,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
 public abstract class IGeneratorBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer,Conductionable {
-    NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
+    protected NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
     private int burnTimeOdd = 0;
@@ -90,14 +93,19 @@ public abstract class IGeneratorBlockEntity extends RandomizableContainerBlockEn
         return EnergyExportType.GENERATOR_ELECTRICITY;
     }
 
+    @Override
+    public AbstractContainerMenu createMenu(int id, Inventory inventory) {
+        return new GeneratorMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition));
+    }
+
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         BlockEntity entity = level.getBlockEntity(blockPos);
         if (entity instanceof IGeneratorBlockEntity iGeneratorBlockEntity) {
             if (iGeneratorBlockEntity.getBurnTimeOdd()==0) {
                 if (iGeneratorBlockEntity.fuelEfficient(iGeneratorBlockEntity.stacks.get(0).getItem())!=-1) {
                     iGeneratorBlockEntity.addBurnTimeOdd(1000);
-                    iGeneratorBlockEntity.stacks.get(0).shrink(1);
                     iGeneratorBlockEntity.efficient = iGeneratorBlockEntity.fuelEfficient(iGeneratorBlockEntity.stacks.get(0).getItem());
+                    iGeneratorBlockEntity.stacks.get(0).shrink(1);
                 }
             } else {
                 if (iGeneratorBlockEntity.efficient!=-1) {
@@ -110,8 +118,7 @@ public abstract class IGeneratorBlockEntity extends RandomizableContainerBlockEn
 
     public abstract int fuelEfficient(Item item);
 
-
-        @Override
+    @Override
     public void load(CompoundTag compound) {
         super.load(compound);
         if (!this.tryLoadLootTable(compound))

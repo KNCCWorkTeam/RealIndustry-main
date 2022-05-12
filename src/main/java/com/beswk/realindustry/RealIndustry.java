@@ -5,8 +5,8 @@ import com.beswk.realindustry.CreativeTabs.Machine;
 import com.beswk.realindustry.CreativeTabs.Material;
 import com.beswk.realindustry.CreativeTabs.Tool;
 import com.beswk.realindustry.Screens.GeneratorScreen;
-import com.beswk.realindustry.Screens.GrinderScreen;
-import com.beswk.realindustry.Screens.InternalCombustionEngineScreen;
+import com.beswk.realindustry.Screens.MachineScreen;
+import com.beswk.realindustry.Screens.SeniorGeneratorScreen;
 import com.beswk.realindustry.util.Initialize;
 import com.beswk.realindustry.util.Menus;
 import com.beswk.realindustry.util.OreFeature;
@@ -64,8 +64,9 @@ public class RealIndustry {
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            MenuScreens.register(Menus.INTERNAL_COMBUSTION_MACHINE_MENU, InternalCombustionEngineScreen::new);
-            MenuScreens.register(Menus.GRINDER, GrinderScreen::new);
+            MenuScreens.register(Menus.GENERATOR_MENU, GeneratorScreen::new);
+            MenuScreens.register(Menus.MACHINE_MENU, MachineScreen::new);
+            MenuScreens.register(Menus.SENIOR_GENERATOR_MENU, SeniorGeneratorScreen::new);
         });
     }
 

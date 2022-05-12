@@ -2,9 +2,18 @@ package com.beswk.realindustry.util.Class;
 
 public enum EnergyType {
     //electricity energy
-    FE,
+    FE(1),
     //kinetic energy
-    KE,
+    KE(2),
     //heat energy
-    HE
+    HE(4);
+
+    final int energyTime;
+    EnergyType(int energyTime) {
+        this.energyTime = energyTime;
+    }
+
+    public int getEnergyTime() {
+        return energyTime;
+    }
 }

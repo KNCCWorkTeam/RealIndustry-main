@@ -1,6 +1,7 @@
 package com.beswk.realindustry.Blocks;
 
-import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
+import com.beswk.realindustry.BlockEntities.IGeneratorBlockEntity;
+import com.beswk.realindustry.BlockEntities.IMachineBlockEntity;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
@@ -57,7 +58,7 @@ public abstract class MachineBlock extends MinecraftBlock implements EntityBlock
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GeneratorBlockEntity be) {
+            if (blockEntity instanceof IMachineBlockEntity be) {
                 Containers.dropContents(world, pos, be);
                 world.updateNeighbourForOutputSignal(pos, this);
             }
@@ -73,7 +74,7 @@ public abstract class MachineBlock extends MinecraftBlock implements EntityBlock
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos pos) {
         BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof GeneratorBlockEntity be)
+        if (tileentity instanceof IGeneratorBlockEntity be)
             return AbstractContainerMenu.getRedstoneSignalFromContainer(be);
         else
             return 0;

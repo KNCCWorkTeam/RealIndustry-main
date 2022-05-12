@@ -14,9 +14,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
 
-public class InternalCombustionEngineBlockEntity extends GeneratorBlockEntity{
+public class InternalCombustionEngineBlockEntity extends IGeneratorBlockEntity {
     public InternalCombustionEngineBlockEntity(BlockPos position, BlockState state) {
-        super(EnergyType.KE,false,"internal_combustion_engine",40000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
+        super(EnergyType.KE,"internal_combustion_engine",40000,200,200,0,10,BlockEntities.INTERNAL_COMBUSTION_ENGINE_ENTITY, position, state);
     }
 
     @Override

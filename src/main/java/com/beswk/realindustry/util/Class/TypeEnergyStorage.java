@@ -1,56 +1,52 @@
 package com.beswk.realindustry.util.Class;
 
-import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
-import com.beswk.realindustry.BlockEntities.MachineBlockEntity;
+import com.beswk.realindustry.BlockEntities.IGeneratorBlockEntity;
+import com.beswk.realindustry.BlockEntities.IMachineBlockEntity;
 import net.minecraftforge.energy.EnergyStorage;
 
 public class TypeEnergyStorage extends EnergyStorage {
     EnergyType type;
-    public TypeEnergyStorage(EnergyType type,int capacity) {
-        super(capacity);
-        this.type = type;
-    }
-
-    public TypeEnergyStorage(EnergyType type,int capacity, int maxTransfer) {
-        super(capacity, maxTransfer);
-        this.type = type;
-    }
-
-    public TypeEnergyStorage(EnergyType type,int capacity, int maxReceive, int maxExtract) {
-        super(capacity, maxReceive, maxExtract);
-        this.type = type;
-    }
+    int maxReceive;
+    int maxExtract;
 
     public TypeEnergyStorage(EnergyType type,int capacity, int maxReceive, int maxExtract, int energy) {
         super(capacity, maxReceive, maxExtract, energy);
         this.type = type;
+        this.maxReceive = maxReceive;
+        this.maxExtract = maxExtract;
+    }
+
+    public TypeEnergyStorage(EnergyType type,int capacity, int maxExport, int energy) {
+        this(type, capacity, maxExport, maxExport, energy);
     }
 
     public void addEnergy(TypeEnergyStorage typeEnergyStorage,int energy) {
         if (ifSameEnergyType(typeEnergyStorage)) {
-            addEnergy(energy);
-            typeEnergyStorage.addEnergy(-energy);
+            if (addEnergy(energy)) {
+                typeEnergyStorage.addEnergy(-energy);
+            }
         }
     }
 
-    public void addEnergy(GeneratorBlockEntity generatorBlockEntity, int energy) {
-        if (ifSameEnergyType(generatorBlockEntity.energyStorage)) {
-            addEnergy(energy);
-        }
+    public void generatorAddEnergy(IGeneratorBlockEntity IGeneratorBlockEntity, int energy) {
+        addEnergy(energy);
     }
 
-    public void addEnergy(MachineBlockEntity machineBlockEntity, int energy,int process) {
+    public void processReduceEnergy(IMachineBlockEntity machineBlockEntity, int energy, int process) {
         if (ifSameEnergyType(machineBlockEntity.energyStorage)) {
-            addEnergy(energy);
-            machineBlockEntity.addProcess(process);
+            if (addEnergy(-energy)) {
+                machineBlockEntity.addProcess(process);
+            }
         }
     }
 
-    private void addEnergy(int energy) {
+    private boolean addEnergy(int energy) {
         if (getEnergyStored()+energy>getMaxEnergyStored()) {
             this.energy = getMaxEnergyStored();
+            return false;
         } else {
             this.energy += energy;
+            return true;
         }
     }
 
@@ -66,6 +62,14 @@ public class TypeEnergyStorage extends EnergyStorage {
         return ifSameEnergyType(typeEnergyStorage.type);
     }
 
+    public int getMaxReceive() {
+        return maxReceive;
+    }
+
+    public int getMaxExtract() {
+        return maxExtract;
+    }
+
     public static boolean ifSameEnergyType(TypeEnergyStorage... typeEnergyStorages) {
         EnergyType type;
         type = typeEnergyStorages[0].type;
@@ -75,6 +79,30 @@ public class TypeEnergyStorage extends EnergyStorage {
             }
         }
         return true;
+    }
+
+    public static int transportEnergy(TypeEnergyStorage output,TypeEnergyStorage input) {
+        int energy = Math.min(Math.min(input.getMaxReceive(),input.getMaxEnergyStored()-input.getEnergyStored()),Math.min(output.getMaxExtract(),output.getEnergyStored()));
+        if (input.ifSameEnergyType(output)) {
+            input.addEnergy(output,energy);
+            return energy;
+        }
+        return -1;
+    }
+
+    public static int transferEnergy(TypeEnergyStorage output,TypeEnergyStorage input) {
+        if (input.ifSameEnergyType(output)) {
+            return transportEnergy(input,output);
+        } else {
+            int inputMaxReceive = input.getMaxReceive()*input.type.getEnergyTime();
+            int outputMaxExtract = output.getMaxExtract()*output.type.getEnergyTime();
+            int outputEnergyStored = output.getEnergyStored()*output.type.getEnergyTime();
+            int inputEnergySpaceOdd = input.getMaxEnergyStored()-input.getEnergyStored();
+            int energy = Math.min(Math.min(inputEnergySpaceOdd,inputMaxReceive),Math.min(outputMaxExtract,outputEnergyStored));
+            output.addEnergy(-energy/output.type.getEnergyTime());
+            input.addEnergy(energy/input.type.getEnergyTime());
+            return energy;
+        }
     }
 
     @Override

@@ -18,6 +18,7 @@
   "block.realindustry.internal_combustion_engine": "内燃机",
   "block.realindustry.grinder": "粉碎机",
   "block.realindustry.cable": "导电方块",
+  "block.realindustry.ke_generator": "动能发电机",
   "itemGroup.material_tab": "材料",
   "itemGroup.industry_material_tab": "工业材料",
   "itemGroup.tool_tab": "工具"

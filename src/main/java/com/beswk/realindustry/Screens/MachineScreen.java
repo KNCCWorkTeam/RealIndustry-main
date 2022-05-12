@@ -2,19 +2,17 @@ package com.beswk.realindustry.Screens;
 
 /* imports omitted */
 
-import com.beswk.realindustry.BlockEntities.MachineBlockEntity;
+import com.beswk.realindustry.BlockEntities.IMachineBlockEntity;
 import com.beswk.realindustry.Menu.MachineMenu;
 import com.beswk.realindustry.util.Class.MachineComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -69,7 +67,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         this.blit(ms, this.leftPos + 155, this.topPos + 3, 0, 0, 16, 80, 16, 80);
 
         BlockEntity entity = machineComponent.getEntity();
-        if (entity instanceof MachineBlockEntity machineBlockEntity) {
+        if (entity instanceof IMachineBlockEntity machineBlockEntity) {
             float process = machineBlockEntity.data.get(0);
             RenderSystem.setShaderTexture(0, new ResourceLocation("realindustry:textures/gui/container/arrow_complete.png"));
             this.blit(ms, this.leftPos + 85, this.topPos + 36, 0, 0, ((int) (process * 0.022)), 15, 22, 15);

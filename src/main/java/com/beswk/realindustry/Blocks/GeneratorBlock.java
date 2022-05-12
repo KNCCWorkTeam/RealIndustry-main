@@ -1,10 +1,17 @@
 package com.beswk.realindustry.Blocks;
 
-import com.beswk.realindustry.BlockEntities.GeneratorBlockEntity;
+import com.beswk.realindustry.BlockEntities.IGeneratorBlockEntity;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
+import com.beswk.realindustry.util.Class.MachineComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -16,6 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +39,30 @@ public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlo
     @Override
     public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 15;
+    }
+
+    abstract AbstractContainerMenu createMenu(Level world, BlockPos pos, int integer, Inventory inventory, Player player);
+
+    @Override
+    public InteractionResult use(BlockState blockstate, Level world, BlockPos pos, Player entity, InteractionHand hand, BlockHitResult hit) {
+        super.use(blockstate, world, pos, entity, hand, hit);
+        GeneratorBlock block = this;
+        if (entity instanceof ServerPlayer player) {
+            player.openMenu(new MenuProvider() {
+                @Override
+                public Component getDisplayName() {
+                    return new MachineComponent(displayName,world.getBlockEntity(pos));
+                }
+
+                @Nullable
+                @Override
+                public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
+                    return block.createMenu(world, pos, p_39954_, p_39955_, p_39956_);
+
+                }
+            });
+        }
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -57,7 +90,7 @@ public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlo
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GeneratorBlockEntity be) {
+            if (blockEntity instanceof IGeneratorBlockEntity be) {
                 Containers.dropContents(world, pos, be);
                 world.updateNeighbourForOutputSignal(pos, this);
             }
@@ -73,7 +106,7 @@ public abstract class GeneratorBlock extends MinecraftBlock implements EntityBlo
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos pos) {
         BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof GeneratorBlockEntity be)
+        if (tileentity instanceof IGeneratorBlockEntity be)
             return AbstractContainerMenu.getRedstoneSignalFromContainer(be);
         else
             return 0;

@@ -18,6 +18,7 @@
   "block.realindustry.internal_combustion_engine": "Internal Combustion Engine",
   "block.realindustry.grinder": "Grinder",
   "block.realindustry.cable": "Cable Block",
+  "block.realindustry.ke_generator": "Kinetic Energy Generator",
   "itemGroup.material_tab": "Material",
   "itemGroup.industry_material_tab": "Industry Material",
   "itemGroup.tool_tab": "Tool"

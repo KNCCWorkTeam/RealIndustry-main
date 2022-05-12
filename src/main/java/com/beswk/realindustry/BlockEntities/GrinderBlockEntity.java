@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
 
-public class GrinderBlockEntity extends MachineBlockEntity{
+public class GrinderBlockEntity extends IMachineBlockEntity {
     public GrinderBlockEntity(BlockPos position, BlockState state) {
         super(EnergyType.FE,"grinder", 1000, 200, 200, 0, BlockEntities.GRINDER_ENTITY, position, state);
     }

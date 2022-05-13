@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "realindustry:copper_plate"
+  },
+  "addition": {
+    "item": "realindustry:iron_cutter"
+  },
+  "result": {
+    "item": "realindustry:copper_wire",
+    "count": 4
+  }
+}

@@ -4,6 +4,8 @@
     "realindustry:enderite_block",
     "realindustry:ender_dragon_debris",
     "realindustry:internal_combustion_engine",
-    "realindustry:grinder"
+    "realindustry:grinder",
+    "realindustry:coal_fired_machine",
+    "realindustry:steam_turbine"
   ]
 }

@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
-public class MinecraftBlock extends Block {
+public abstract class MinecraftBlock extends Block {
     public MinecraftBlock(Material material, MaterialColor materialColor, float strength, float resistance, SoundType sound) {
         super(Registry.getBlock(material, materialColor, strength, resistance, sound));
     }

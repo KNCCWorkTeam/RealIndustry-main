@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "I I",
+    "ICI"
+  ],
+  "key": {
+    "I": {
+      "item": "realindustry:iron_plate"
+    },
+    "S": {
+      "item": "realindustry:spark_plug"
+    },
+    "P": {
+      "item": "realindustry:piston"
+    },
+    "C": {
+      "item": "realindustry:crank_train_and_piston"
+    }
+  },
+  "result": {
+    "item": "realindustry:internal_combustion_engine",
+    "count": 1
+  }
+}

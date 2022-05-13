@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G G",
+    "M M",
+    "PPP"
+  ],
+  "key": {
+    "G": {
+      "item": "realindustry:grinder_gear"
+    },
+    "M": {
+      "item": "realindustry:motor"
+    },
+    "P": {
+      "item": "realindustry:iron_plate"
+    }
+  },
+  "result": {
+    "item": "realindustry:grinder",
+    "count": 1
+  }
+}

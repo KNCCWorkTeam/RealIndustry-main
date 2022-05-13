@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CEC",
+    "CCC"
+  ],
+  "key": {
+    "E": {
+      "item": "realindustry:electromagnet"
+    },
+    "C": {
+      "item": "realindustry:copper_wire"
+    }
+  },
+  "result": {
+    "item": "realindustry:copper_coil",
+    "count": 1
+  }
+}

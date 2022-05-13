@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  S",
+    "RPT"
+  ],
+  "key": {
+    "S": {
+      "item": "realindustry:piston_ring_set"
+    },
+    "R": {
+      "item": "realindustry:piston_pin_ring"
+    },
+    "P": {
+      "item": "realindustry:piston_pin"
+    },
+    "T": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "item": "realindustry:piston",
+    "count": 1
+  }
+}

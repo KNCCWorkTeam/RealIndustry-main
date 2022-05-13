@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "realindustry:piston_ring",
+      "data": 0
+    },
+    {
+      "item": "realindustry:piston_ring",
+      "data": 0
+    },
+    {
+      "item": "realindustry:piston_ring",
+      "data": 0
+    },
+    {
+      "item": "realindustry:piston_ring",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "realindustry:piston_ring_set",
+    "count": 1
+  }
+}

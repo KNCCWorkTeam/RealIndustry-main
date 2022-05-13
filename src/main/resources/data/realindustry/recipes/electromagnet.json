@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CIC",
+    "CCC"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "realindustry:copper_wire"
+    }
+  },
+  "result": {
+    "item": "realindustry:electromagnet",
+    "count": 1
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "C"
+  ],
+  "key": {
+    "P": {
+      "item": "realindustry:iron_plate"
+    },
+    "C": {
+      "item": "realindustry:crank_train"
+    }
+  },
+  "result": {
+    "item": "realindustry:crank_train_and_piston",
+    "count": 1
+  }
+}

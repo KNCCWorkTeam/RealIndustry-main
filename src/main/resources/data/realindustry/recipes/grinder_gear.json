@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I",
+    "I",
+    "I"
+  ],
+  "key": {
+    "I": {
+      "item": "realindustry:iron_gear"
+    }
+  },
+  "result": {
+    "item": "realindustry:grinder_gear",
+    "count": 1
+  }
+}

@@ -1,6 +1,7 @@
 package com.beswk.realindustry.BlockEntities;
 
 import com.beswk.realindustry.Menu.GeneratorMenu;
+import com.beswk.realindustry.util.Class.ConductionableChannel;
 import com.beswk.realindustry.util.Class.EnergyType;
 import com.beswk.realindustry.util.Class.TypeEnergyStorage;
 import io.netty.buffer.Unpooled;
@@ -46,20 +47,18 @@ public abstract class IGeneratorBlockEntity extends RandomizableContainerBlockEn
     public String displayName;
     int efficient;
     public TypeEnergyStorage energyStorage;
-    int capacity;
-    int maxReceive;
-    int maxExtract;
-    int energy;
     int generateAmountPerTick;
+
+    ConductionableChannel conductionables;
+    @Override
+    public ConductionableChannel getConductionableChannel() {
+        return conductionables;
+    }
 
     public IGeneratorBlockEntity(EnergyType type, String displayName, int capacity, int maxReceive, int maxExtract, int energy, int generateAmountPerTick, BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
         this.displayName = displayName;
         this.generateAmountPerTick = generateAmountPerTick;
-        this.capacity = capacity;
-        this.maxReceive = maxReceive;
-        this.maxExtract = maxExtract;
-        this.energy = energy;
         energyStorage = new TypeEnergyStorage(type,capacity, maxReceive, maxExtract, energy) {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
@@ -90,7 +89,7 @@ public abstract class IGeneratorBlockEntity extends RandomizableContainerBlockEn
 
     @Override
     public EnergyExportType getEnergyExportType() {
-        return EnergyExportType.GENERATOR_ELECTRICITY;
+        return EnergyExportType.GENERATOR_NOT_ELECTRICITY;
     }
 
     @Override
@@ -99,6 +98,10 @@ public abstract class IGeneratorBlockEntity extends RandomizableContainerBlockEn
     }
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
+        if (level!=null&&blockPos!=null) {
+            IGeneratorBlockEntity blockEntity = (IGeneratorBlockEntity) level.getBlockEntity(blockPos);
+            blockEntity.conductionables = new ConductionableChannel(level, blockPos);
+        }
         BlockEntity entity = level.getBlockEntity(blockPos);
         if (entity instanceof IGeneratorBlockEntity iGeneratorBlockEntity) {
             if (iGeneratorBlockEntity.getBurnTimeOdd()==0) {

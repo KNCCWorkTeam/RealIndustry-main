@@ -2,9 +2,9 @@ package com.beswk.realindustry.BlockEntities;
 
 import com.beswk.realindustry.util.BlockEntities;
 import com.beswk.realindustry.util.Class.EnergyType;
+import com.beswk.realindustry.util.Items;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
@@ -17,10 +17,17 @@ public class InternalCombustionEngineBlockEntity extends ISeniorGeneratorBlockEn
     @Override
     public int fuelEfficient(Item item) {
         HashMap<Item,Integer> itemIntegerHashMap = new HashMap<>();
-        itemIntegerHashMap.put(Items.COAL,100);
-        itemIntegerHashMap.put(Items.COAL_BLOCK,1000);
-        itemIntegerHashMap.put(Items.CHARCOAL,1000);
+        itemIntegerHashMap.put(Items.FUEL_OIL_UNIT,1000);
+        itemIntegerHashMap.put(Items.DIESEL_OIL_UNIT,2000);
         return itemIntegerHashMap.get(item)==null?-1:itemIntegerHashMap.get(item);
     }
 
+
+    @Override
+    public Item fuelBurnEndProduce(Item item) {
+        HashMap<Item,Item> itemIntegerHashMap = new HashMap<>();
+        itemIntegerHashMap.put(Items.FUEL_OIL_UNIT,Items.UNIT);
+        itemIntegerHashMap.put(Items.DIESEL_OIL_UNIT,Items.UNIT);
+        return itemIntegerHashMap.get(item);
+    }
 }

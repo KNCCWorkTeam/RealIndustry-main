@@ -1,14 +1,9 @@
 package com.beswk.realindustry.BlockEntities;
 
-import com.beswk.realindustry.Menu.MachineMenu;
 import com.beswk.realindustry.util.BlockEntities;
 import com.beswk.realindustry.util.Class.EnergyType;
 import com.beswk.realindustry.util.Items;
-import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,14 +12,8 @@ import java.util.HashMap;
 
 public class GrinderBlockEntity extends IMachineBlockEntity {
     public GrinderBlockEntity(BlockPos position, BlockState state) {
-        super(5,10,EnergyType.FE,"grinder", 1000, 200, 200, 0, BlockEntities.GRINDER_ENTITY, position, state);
+        super(20,10,EnergyType.FE,"grinder", 1000, 200, 200, 0, BlockEntities.GRINDER_ENTITY, position, state);
     }
-
-    @Override
-    public AbstractContainerMenu createMenu(int id, Inventory inventory) {
-        return new MachineMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition));
-    }
-
 
     @Override
     public ItemStack completeMap(Item item) {

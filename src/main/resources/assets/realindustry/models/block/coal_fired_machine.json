@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "realindustry:block/machine_side",
+    "front": "realindustry:block/coal_fired_machine_front",
+    "side": "realindustry:block/machine_side"
+  }
+}

@@ -15,7 +15,7 @@ public abstract class IAutoOutputElectricityGeneratorBlockEntity extends IGenera
 
     @Override
     public EnergyExportType getEnergyExportType() {
-        return EnergyExportType.GENERATOR_NOT_ELECTRICITY;
+        return EnergyExportType.GENERATOR_ELECTRICITY;
     }
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {

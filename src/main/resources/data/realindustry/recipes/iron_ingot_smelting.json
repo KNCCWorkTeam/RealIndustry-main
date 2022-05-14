@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": [
+    {
+      "item": "realindustry:iron_dust"
+    }
+  ],
+  "result": "minecraft:iron_ingot",
+  "experience": 0.2,
+  "cookingtime": 2000
+}

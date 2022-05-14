@@ -1,9 +1,7 @@
 package com.beswk.realindustry;
 
-import com.beswk.realindustry.CreativeTabs.IndustryMaterial;
-import com.beswk.realindustry.CreativeTabs.Machine;
-import com.beswk.realindustry.CreativeTabs.Material;
-import com.beswk.realindustry.CreativeTabs.Tool;
+import com.beswk.realindustry.CreativeTabs.*;
+import com.beswk.realindustry.Screens.AccumulatorScreen;
 import com.beswk.realindustry.Screens.GeneratorScreen;
 import com.beswk.realindustry.Screens.MachineScreen;
 import com.beswk.realindustry.Screens.SeniorGeneratorScreen;
@@ -43,6 +41,7 @@ public class RealIndustry {
     public static final CreativeModeTab MATERIAL = new Material();
     public static final CreativeModeTab TOOL = new Tool();
     public static final CreativeModeTab INDUSTRY_MATERIAL = new IndustryMaterial();
+    public static final CreativeModeTab UNIT = new Unit();
 
     public static final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -67,6 +66,7 @@ public class RealIndustry {
             MenuScreens.register(Menus.GENERATOR_MENU, GeneratorScreen::new);
             MenuScreens.register(Menus.MACHINE_MENU, MachineScreen::new);
             MenuScreens.register(Menus.SENIOR_GENERATOR_MENU, SeniorGeneratorScreen::new);
+            MenuScreens.register(Menus.ACCUMULATOR_MENU, AccumulatorScreen::new);
         });
     }
 

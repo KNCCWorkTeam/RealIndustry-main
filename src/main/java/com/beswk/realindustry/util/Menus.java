@@ -12,4 +12,5 @@ public class Menus {
     public static final MenuType<GeneratorMenu> GENERATOR_MENU = Registry.registerMenu("generator_menu", GeneratorMenu::new);
     public static final MenuType<MachineMenu> MACHINE_MENU = Registry.registerMenu("grinder", MachineMenu::new);
     public static final MenuType<SeniorGeneratorMenu> SENIOR_GENERATOR_MENU = Registry.registerMenu("senior_generator",SeniorGeneratorMenu::new);
+    public static final MenuType<AccumulatorMenu> ACCUMULATOR_MENU = Registry.registerMenu("accumulator",AccumulatorMenu::new);
 }

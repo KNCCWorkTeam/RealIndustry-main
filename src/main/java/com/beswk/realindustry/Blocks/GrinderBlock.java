@@ -35,27 +35,4 @@ public class GrinderBlock extends IMachineBlock {
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new GrinderBlockEntity(pos, state);
     }
-
-    @Override
-    public InteractionResult use(BlockState blockstate, Level world, BlockPos pos, Player entity, InteractionHand hand, BlockHitResult hit) {
-        super.use(blockstate, world, pos, entity, hand, hit);
-        if (entity instanceof ServerPlayer player) {
-            player.openMenu(new MenuProvider() {
-                @Override
-                public Component getDisplayName() {
-                    return new MachineComponent(displayName,world.getBlockEntity(pos));
-                }
-
-                @Nullable
-                @Override
-                public AbstractContainerMenu createMenu(int p_39954_, Inventory p_39955_, Player p_39956_) {
-                    if (world.getBlockEntity(pos) instanceof GrinderBlockEntity grinderBlockEntity) {
-                        return grinderBlockEntity.createMenu(p_39954_,p_39955_);
-                    }
-                    return null;
-                }
-            });
-        }
-        return InteractionResult.SUCCESS;
-    }
 }

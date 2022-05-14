@@ -1,18 +1,25 @@
 package com.beswk.realindustry.BlockEntities;
 
+import com.beswk.realindustry.Menu.MachineMenu;
+import com.beswk.realindustry.util.Class.ConductionableChannel;
 import com.beswk.realindustry.util.Class.EnergyType;
 import com.beswk.realindustry.util.Class.ObjectData;
 import com.beswk.realindustry.util.Class.TypeEnergyStorage;
+import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -39,21 +46,18 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
     private int process = 0;
     public ObjectData data = new ObjectData(1,1);
     public String displayName;
-    int capacity;
-    int maxReceive;
-    int maxExtract;
-    int energy;
     public TypeEnergyStorage energyStorage;
+    ConductionableChannel conductionables;
+    @Override
+    public ConductionableChannel getConductionableChannel() {
+        return conductionables;
+    }
 
     public IMachineBlockEntity(int energyCost,int speed,EnergyType type, String displayName, int capacity, int maxReceive, int maxExtract, int energy, BlockEntityType<?> entity, BlockPos position, BlockState state) {
         super(entity, position, state);
         this.energyCost = energyCost;
         this.speed = speed;
         this.displayName = displayName;
-        this.capacity = capacity;
-        this.maxReceive = maxReceive;
-        this.maxExtract = maxExtract;
-        this.energy = energy;
         this.energyStorage = new TypeEnergyStorage(type,capacity, maxReceive, maxExtract, energy) {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
@@ -78,6 +82,11 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
     }
 
     @Override
+    public AbstractContainerMenu createMenu(int p_59637_, Inventory p_59638_) {
+        return new MachineMenu(p_59637_, p_59638_,new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(this.worldPosition));
+    }
+
+    @Override
     public TypeEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
@@ -90,6 +99,7 @@ public abstract class IMachineBlockEntity extends RandomizableContainerBlockEnti
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         BlockEntity entity = level.getBlockEntity(blockPos);
         if (entity instanceof IMachineBlockEntity machineBlockEntity) {
+            machineBlockEntity.conductionables = new ConductionableChannel(level,blockPos);
             if (machineBlockEntity.completeMap(machineBlockEntity.getInputItem())!=null) {
                 if (machineBlockEntity.energyStorage.getEnergyStored() >= 5) {
                     machineBlockEntity.energyStorage.processReduceEnergy(machineBlockEntity,machineBlockEntity.energyCost,machineBlockEntity.speed);

@@ -41,7 +41,7 @@ public class TypeEnergyStorage extends EnergyStorage {
     }
 
     private boolean addEnergy(int energy) {
-        if (getEnergyStored()+energy>getMaxEnergyStored()) {
+        if (getEnergyStored()>getMaxEnergyStored()) {
             this.energy = getMaxEnergyStored();
             return false;
         } else {

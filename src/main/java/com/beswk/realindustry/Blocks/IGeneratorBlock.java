@@ -1,5 +1,6 @@
 package com.beswk.realindustry.Blocks;
 
+import com.beswk.realindustry.BlockEntities.Conductionable;
 import com.beswk.realindustry.BlockEntities.IGeneratorBlockEntity;
 import com.beswk.realindustry.Minecraft.MinecraftBlock;
 import com.beswk.realindustry.util.Class.MachineComponent;
@@ -107,6 +108,13 @@ public abstract class IGeneratorBlock extends MinecraftBlock implements EntityBl
 
     @Override
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+        try {
+            if (world.getBlockEntity(pos) instanceof Conductionable conductionable) {
+                conductionable.getConductionableChannel().remove(conductionable);
+            }
+        } catch (Exception e) {
+            //
+        }
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof IGeneratorBlockEntity be) {

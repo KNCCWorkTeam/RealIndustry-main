@@ -21,24 +21,31 @@ public class Items {
     public static final Item IRON_HAMMER = Registry.registerItem(new Item(Registry.getItem(RealIndustry.TOOL).stacksTo(4)), "iron_hammer", RealIndustry.bus);
     public static final Item IRON_CUTTER = Registry.registerItem(new Item(Registry.getItem(RealIndustry.TOOL).stacksTo(4)),"iron_cutter", RealIndustry.bus);
 
+    public static final Item IRON_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_dust",RealIndustry.bus);
+    public static final Item IRON_PLATE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_plate", RealIndustry.bus);
+    public static final Item IRON_OXIDE_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"fe2o3",RealIndustry.bus);
+    public static final Item COPPER_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_dust",RealIndustry.bus);
+    public static final Item COPPER_COIL = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_coil", RealIndustry.bus);
+    public static final Item COPPER_PLATE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_plate",RealIndustry.bus);
+    public static final Item COPPER_WIRE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_wire", RealIndustry.bus);
+
     public static final Item PISTON_RING = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"piston_ring",RealIndustry.bus);
     public static final Item PISTON_RING_SET = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"piston_ring_set",RealIndustry.bus);
     public static final Item PISTON_PIN = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"piston_pin",RealIndustry.bus);
     public static final Item PISTON_PIN_RING = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"piston_pin_ring",RealIndustry.bus);
     public static final Item PISTON = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"piston",RealIndustry.bus);
-    public static final Item IRON_PLATE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_plate", RealIndustry.bus);
-    public static final Item IRON_OXIDE_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"fe2o3",RealIndustry.bus);
-    public static final Item IRON_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_dust",RealIndustry.bus);
     public static final Item CRANK_TRAIN = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"crank_train",RealIndustry.bus);
     public static final Item CRANK_TRAIN_AND_PISTON = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"crank_train_and_piston", RealIndustry.bus);
     public static final Item SPARK_PLUG = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"spark_plug", RealIndustry.bus);
     public static final Item IRON_GEAR = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_gear", RealIndustry.bus);
     public static final Item GRINDER_GEAR = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"grinder_gear", RealIndustry.bus);
     public static final Item MOTOR = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"motor", RealIndustry.bus);
-    public static final Item COPPER_COIL = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_coil", RealIndustry.bus);
     public static final Item ELECTROMAGNET = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"electromagnet", RealIndustry.bus);
-    public static final Item COPPER_PLATE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_plate",RealIndustry.bus);
-    public static final Item COPPER_WIRE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"copper_wire", RealIndustry.bus);
+
+    public static final Item UNIT = Registry.registerItem(RealIndustry.UNIT,"unit", RealIndustry.bus);
+    public static final Item WATER_UNIT = Registry.registerItem(RealIndustry.UNIT,"water_unit", RealIndustry.bus);
+    public static final Item FUEL_OIL_UNIT = Registry.registerItem(RealIndustry.UNIT,"fuel_oil_unit", RealIndustry.bus);
+    public static final Item DIESEL_OIL_UNIT = Registry.registerItem(RealIndustry.UNIT,"diesel_oil_unit", RealIndustry.bus);
 
     public static final Item ENDERITE_SWORD = Registry.registerItem(new SwordItem(Tiers.Enderite, 3,-2.4f, Registry.getItem(RealIndustry.TOOL)),"enderite_sword",RealIndustry.bus);
     public static final Item ENDERITE_HOE = Registry.registerItem(new HoeItem(Tiers.Enderite, -4,0, Registry.getItem(RealIndustry.TOOL)),"enderite_hoe",RealIndustry.bus);

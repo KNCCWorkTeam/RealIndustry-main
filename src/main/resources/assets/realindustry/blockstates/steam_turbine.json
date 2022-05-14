@@ -1,19 +1,7 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "realindustry:block/internal_combustion_engine",
-      "y": 90
-    },
-    "facing=north": {
-      "model": "realindustry:block/internal_combustion_engine"
-    },
-    "facing=south": {
-      "model": "realindustry:block/internal_combustion_engine",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "realindustry:block/internal_combustion_engine",
-      "y": 270
+    "": {
+      "model": "realindustry:block/steam_turbine"
     }
   }
 }

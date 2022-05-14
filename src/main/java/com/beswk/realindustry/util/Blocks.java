@@ -20,6 +20,7 @@ public class Blocks {
     public static final Block KE_GENERATOR = Registry.registerBlock(new KEGeneratorBlock(),"ke_generator",RealIndustry.MACHINE,RealIndustry.bus);
     public static final Block STEAM_TURBINE = Registry.registerBlock(new SteamTurbineBlock(),"steam_turbine",RealIndustry.MACHINE,RealIndustry.bus);
     public static final Block COAL_FIRED_MACHINE = Registry.registerBlock(new CoalFiredMachineBlock(),"coal_fired_machine",RealIndustry.MACHINE,RealIndustry.bus);
+    public static final Block COPPER_ACCUMULATOR = Registry.registerBlock(new CopperAccumulatorBlock(),"copper_accumulator",RealIndustry.MACHINE,RealIndustry.bus);
     public static final Block CABLE = Registry.registerBlock(new ICableBlock() {
         @Override
         public @NotNull BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {

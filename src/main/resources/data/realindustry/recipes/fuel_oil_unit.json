@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": [
+    {
+      "item": "realindustry:coal"
+    }
+  ],
+  "result": "realindustry:fuel_oil_unit",
+  "experience": 0.2,
+  "cookingtime": 5000
+}

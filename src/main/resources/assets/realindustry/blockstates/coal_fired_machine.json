@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "realindustry:block/coal_fired_machine",
+      "y": 90
+    },
+    "facing=north": {
       "model": "realindustry:block/coal_fired_machine"
+    },
+    "facing=south": {
+      "model": "realindustry:block/coal_fired_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "realindustry:block/coal_fired_machine",
+      "y": 270
     }
   }
 }

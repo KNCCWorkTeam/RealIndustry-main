@@ -18,8 +18,8 @@ public class Items {
     public static final Item ENDERITE_INGOT = Registry.registerItem(new EnderiteIngot(),"enderite_ingot", RealIndustry.bus);
     public static final Item ENDERITE_SCRAP = Registry.registerItem(new EnderiteScrap(),"enderite_scrap", RealIndustry.bus);
 
-    public static final Item IRON_HAMMER = Registry.registerItem(new Item(Registry.getItem(RealIndustry.TOOL).stacksTo(4)), "iron_hammer", RealIndustry.bus);
-    public static final Item IRON_CUTTER = Registry.registerItem(new Item(Registry.getItem(RealIndustry.TOOL).stacksTo(4)),"iron_cutter", RealIndustry.bus);
+    public static final Item IRON_HAMMER = Registry.registerItem(new Item(Registry.getItem(RealIndustry.TOOL).stacksTo(16)), "iron_hammer", RealIndustry.bus);
+    public static final Item IRON_CUTTER = Registry.registerItem(new Item(Registry.getItem(RealIndustry.TOOL).stacksTo(16)),"iron_cutter", RealIndustry.bus);
 
     public static final Item IRON_DUST = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_dust",RealIndustry.bus);
     public static final Item IRON_PLATE = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_plate", RealIndustry.bus);
@@ -41,6 +41,8 @@ public class Items {
     public static final Item GRINDER_GEAR = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"grinder_gear", RealIndustry.bus);
     public static final Item MOTOR = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"motor", RealIndustry.bus);
     public static final Item ELECTROMAGNET = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"electromagnet", RealIndustry.bus);
+    public static final Item OBSIDIAN_ALLOY = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"obsidian_alloy", RealIndustry.bus);
+    public static final Item IRON_FAN = Registry.registerItem(RealIndustry.INDUSTRY_MATERIAL,"iron_fan", RealIndustry.bus);
 
     public static final Item UNIT = Registry.registerItem(RealIndustry.UNIT,"unit", RealIndustry.bus);
     public static final Item WATER_UNIT = Registry.registerItem(RealIndustry.UNIT,"water_unit", RealIndustry.bus);

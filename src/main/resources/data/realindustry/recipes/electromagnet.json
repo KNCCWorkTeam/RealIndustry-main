@@ -2,12 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "CCC",
-    "CIC",
+    "CFC",
     "CCC"
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
+    "F": {
+      "item": "realindustry:fe2o3"
     },
     "C": {
       "item": "realindustry:copper_wire"

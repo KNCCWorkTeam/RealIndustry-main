@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OFO",
+    "OOO",
+    "OKO"
+  ],
+  "key": {
+    "O": {
+      "item": "realindustry:obsidian_alloy"
+    },
+    "F": {
+      "item": "realindustry:iron_fan"
+    },
+    "K": {
+      "item": "realindustry:ke_generator"
+    }
+  },
+  "result": {
+    "item": "realindustry:steam_turbine",
+    "count": 1
+  }
+}

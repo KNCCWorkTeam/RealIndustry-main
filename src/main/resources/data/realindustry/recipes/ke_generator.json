@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PEP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "realindustry:iron_plate"
+    },
+    "E": {
+      "item": "realindustry:electromagnet"
+    }
+  },
+  "result": {
+    "item": "realindustry:ke_generator",
+    "count": 1
+  }
+}

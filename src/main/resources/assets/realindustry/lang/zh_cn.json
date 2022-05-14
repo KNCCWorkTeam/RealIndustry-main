@@ -29,11 +29,16 @@
   "item.realindustry.motor": "电动机",
   "item.realindustry.copper_coil": "铜线圈",
   "item.realindustry.electromagnet": "电磁铁",
+  "item.realindustry.copper_plate": "铜板",
+  "item.realindustry.copper_wire": "铜线",
   "item.realindustry.iron_cutter": "铁制剪刀",
   "item.realindustry.unit": "单元(空)",
   "item.realindustry.water_unit": "单元(水)",
   "item.realindustry.fuel_oil_unit": "单元(燃油)",
   "item.realindustry.diesel_oil_unit": "单元(柴油)",
+  "item.realindustry.obsidian_alloy": "黑曜石合金",
+  "item.realindustry.iron_fan": "铁风扇",
+  "item.realindustry.copper_dust": "铜粉",
   "block.realindustry.enderite_block": "末地合金块",
   "block.realindustry.ender_dragon_debris": "末影龙残骸",
   "block.realindustry.internal_combustion_engine": "内燃机",
@@ -45,5 +50,6 @@
   "itemGroup.machine_tab": "机器",
   "itemGroup.material_tab": "材料",
   "itemGroup.industry_material_tab": "工业材料",
-  "itemGroup.tool_tab": "工具"
+  "itemGroup.tool_tab": "工具",
+  "itemGroup.unit": "单元"
 }

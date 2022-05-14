@@ -17,7 +17,7 @@ public class Initialize {
 
         Item IRON_HAMMER = Items.IRON_HAMMER;
         Item IRON_CUTTER = Items.IRON_CUTTER;
-        
+
         Item IRON_DUST = Items.IRON_DUST;
         Item IRON_PLATE = Items.IRON_PLATE;
         Item IRON_OXIDE_DUST = Items.IRON_OXIDE_DUST;
@@ -44,6 +44,9 @@ public class Initialize {
         Item WATER_UNIT = Items.WATER_UNIT;
         Item FUEL_OIL_UNIT = Items.FUEL_OIL_UNIT;
         Item DIESEL_OIL_UNIT = Items.DIESEL_OIL_UNIT;
+        Item OBSIDIAN_ALLOY = Items.OBSIDIAN_ALLOY;
+        Item IRON_FAN = Items.IRON_FAN;
+
         Item ENDERITE_SWORD = Items.ENDERITE_SWORD;
         Item ENDERITE_HOE = Items.ENDERITE_HOE;
         Item ENDERITE_AXE = Items.ENDERITE_AXE;

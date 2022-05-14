@@ -36,6 +36,9 @@
   "item.realindustry.water_unit": "Water Unit",
   "item.realindustry.fuel_oil_unit": "Fuel Oil Unit",
   "item.realindustry.diesel_oil_unit": "Diesel Oil Unit",
+  "item.realindustry.obsidian_alloy": "Obsidian Alloy",
+  "item.realindustry.iron_fan": "Iron Fan",
+  "item.realindustry.copper_dust": "Copper Dust",
   "block.realindustry.enderite_block": "Enderite Block",
   "block.realindustry.ender_dragon_debris": "Ender Dragon Debris",
   "block.realindustry.internal_combustion_engine": "Internal Combustion Engine",
@@ -47,5 +50,6 @@
   "itemGroup.machine_tab": "Machine",
   "itemGroup.material_tab": "Material",
   "itemGroup.industry_material_tab": "Industry Material",
-  "itemGroup.tool_tab": "Tool"
+  "itemGroup.tool_tab": "Tool",
+  "itemGroup.unit": "Unit"
 }

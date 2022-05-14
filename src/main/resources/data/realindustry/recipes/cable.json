@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCC",
+    "CWC",
+    "CCL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "C": {
+      "item": "realindustry:copper_plate"
+    },
+    "W": {
+      "item": "realindustry:copper_wire"
+    }
+  },
+  "result": {
+    "item": "realindustry:cable",
+    "count": 2
+  }
+}
